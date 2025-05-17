@@ -194,19 +194,43 @@ const loading = ref(false)
 const networkList = ref([
   {
     id: 1,
-    name: '核心交换机',
+    name: '核心交换机-01',
     ip: '192.168.1.1',
     type: 'switch',
     status: 'online',
-    lastCheck: '2024-01-01 12:00:00'
+    lastCheck: '2024-03-15 14:30:00'
   },
   {
     id: 2,
-    name: '边界路由器',
+    name: '核心交换机-02',
     ip: '192.168.1.2',
+    type: 'switch',
+    status: 'online',
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 3,
+    name: '边界路由器-01',
+    ip: '192.168.1.3',
     type: 'router',
     status: 'online',
-    lastCheck: '2024-01-01 12:00:00'
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 4,
+    name: '防火墙-01',
+    ip: '192.168.1.4',
+    type: 'firewall',
+    status: 'online',
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 5,
+    name: '负载均衡器-01',
+    ip: '192.168.1.5',
+    type: 'loadbalancer',
+    status: 'maintenance',
+    lastCheck: '2024-03-15 14:30:00'
   }
 ])
 
@@ -214,21 +238,48 @@ const networkList = ref([
 const serverList = ref([
   {
     id: 1,
-    name: '应用服务器',
+    name: '应用服务器-01',
     ip: '192.168.1.10',
     cpu: 45,
     memory: 60,
     status: 'running',
-    lastCheck: '2024-01-01 12:00:00'
+    lastCheck: '2024-03-15 14:30:00'
   },
   {
     id: 2,
-    name: '数据库服务器',
+    name: '应用服务器-02',
     ip: '192.168.1.11',
+    cpu: 52,
+    memory: 68,
+    status: 'running',
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 3,
+    name: '数据库服务器-01',
+    ip: '192.168.1.12',
     cpu: 75,
     memory: 85,
     status: 'running',
-    lastCheck: '2024-01-01 12:00:00'
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 4,
+    name: '数据库服务器-02',
+    ip: '192.168.1.13',
+    cpu: 68,
+    memory: 78,
+    status: 'running',
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 5,
+    name: '缓存服务器-01',
+    ip: '192.168.1.14',
+    cpu: 35,
+    memory: 45,
+    status: 'running',
+    lastCheck: '2024-03-15 14:30:00'
   }
 ])
 
@@ -236,21 +287,48 @@ const serverList = ref([
 const storageList = ref([
   {
     id: 1,
-    name: '主存储',
+    name: '主存储-01',
     type: 'SAN',
     capacity: '50TB',
     used: 65,
     status: 'normal',
-    lastCheck: '2024-01-01 12:00:00'
+    lastCheck: '2024-03-15 14:30:00'
   },
   {
     id: 2,
-    name: '备份存储',
+    name: '主存储-02',
+    type: 'SAN',
+    capacity: '50TB',
+    used: 58,
+    status: 'normal',
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 3,
+    name: '备份存储-01',
     type: 'NAS',
     capacity: '30TB',
     used: 45,
     status: 'normal',
-    lastCheck: '2024-01-01 12:00:00'
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 4,
+    name: '备份存储-02',
+    type: 'NAS',
+    capacity: '30TB',
+    used: 42,
+    status: 'normal',
+    lastCheck: '2024-03-15 14:30:00'
+  },
+  {
+    id: 5,
+    name: '归档存储-01',
+    type: 'NAS',
+    capacity: '100TB',
+    used: 35,
+    status: 'normal',
+    lastCheck: '2024-03-15 14:30:00'
   }
 ])
 

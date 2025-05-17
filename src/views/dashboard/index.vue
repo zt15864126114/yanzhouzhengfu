@@ -9,9 +9,9 @@
               </div>
             </template>
             <div class="card-body">
-              <h2>128</h2>
+              <h2>256</h2>
               <div class="trend">
-                <span class="up">↑ 12%</span>
+                <span class="up">↑ 15%</span>
                 <span class="text">较上月</span>
               </div>
             </div>
@@ -25,9 +25,9 @@
               </div>
             </template>
             <div class="card-body">
-              <h2>98</h2>
+              <h2>218</h2>
               <div class="trend">
-                <span class="up">↑ 8%</span>
+                <span class="up">↑ 12%</span>
                 <span class="text">较上月</span>
               </div>
             </div>
@@ -41,9 +41,9 @@
               </div>
             </template>
             <div class="card-body">
-              <h2>5</h2>
+              <h2>8</h2>
               <div class="trend">
-                <span class="down">↓ 3%</span>
+                <span class="down">↓ 5%</span>
                 <span class="text">较上月</span>
               </div>
             </div>
@@ -57,9 +57,9 @@
               </div>
             </template>
             <div class="card-body">
-              <h2>68%</h2>
+              <h2>76%</h2>
               <div class="trend">
-                <span class="up">↑ 5%</span>
+                <span class="up">↑ 3%</span>
                 <span class="text">较上月</span>
               </div>
             </div>
@@ -67,25 +67,29 @@
         </el-col>
       </el-row>
   
-      <el-row :gutter="20" class="mt-20">
+      <el-row :gutter="20" class="mt-4">
         <el-col :span="12">
           <el-card shadow="hover">
             <template #header>
               <div class="card-header">
-                <span>设备状态分布</span>
+                <span>系统负载</span>
               </div>
             </template>
-            <div class="chart-container" ref="deviceChartRef"></div>
+            <div class="chart-container">
+              <div ref="loadChartRef" class="chart"></div>
+            </div>
           </el-card>
         </el-col>
         <el-col :span="12">
           <el-card shadow="hover">
             <template #header>
               <div class="card-header">
-                <span>资源使用趋势</span>
+                <span>资源分布</span>
               </div>
             </template>
-            <div class="chart-container" ref="resourceChartRef"></div>
+            <div class="chart-container">
+              <div ref="resourceChartRef" class="chart"></div>
+            </div>
           </el-card>
         </el-col>
       </el-row>
@@ -99,6 +103,7 @@
   // 图表DOM引用
   const deviceChartRef = ref<HTMLElement | null>(null);
   const resourceChartRef = ref<HTMLElement | null>(null);
+  const loadChartRef = ref<HTMLElement | null>(null);
   
   // 初始化设备状态分布饼图
   const initDeviceChart = () => {
@@ -142,10 +147,10 @@
             show: false
           },
           data: [
-            { value: 98, name: '在线设备' },
-            { value: 20, name: '离线设备' },
-            { value: 5, name: '维护中' },
-            { value: 5, name: '告警设备' }
+            { value: 218, name: '在线设备' },
+            { value: 40, name: '离线设备' },
+            { value: 8, name: '维护中' },
+            { value: 8, name: '告警设备' }
           ]
         }
       ]
@@ -261,8 +266,8 @@
     padding: 20px;
   }
   
-  .mt-20 {
-    margin-top: 20px;
+  .mt-4 {
+    margin-top: 4px;
   }
   
   .card-header {

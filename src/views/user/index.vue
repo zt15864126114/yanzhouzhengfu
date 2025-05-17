@@ -199,6 +199,60 @@ const userList = ref([
     email: 'operator@example.com',
     status: 'active',
     createTime: '2024-01-02 12:00:00'
+  },
+  {
+    id: 3,
+    username: 'system',
+    role: 'admin',
+    phone: '13800138002',
+    email: 'system@example.com',
+    status: 'active',
+    createTime: '2024-01-03 12:00:00'
+  },
+  {
+    id: 4,
+    username: 'monitor',
+    role: 'operator',
+    phone: '13800138003',
+    email: 'monitor@example.com',
+    status: 'active',
+    createTime: '2024-01-04 12:00:00'
+  },
+  {
+    id: 5,
+    username: 'security',
+    role: 'admin',
+    phone: '13800138004',
+    email: 'security@example.com',
+    status: 'active',
+    createTime: '2024-01-05 12:00:00'
+  },
+  {
+    id: 6,
+    username: 'backup',
+    role: 'operator',
+    phone: '13800138005',
+    email: 'backup@example.com',
+    status: 'inactive',
+    createTime: '2024-01-06 12:00:00'
+  },
+  {
+    id: 7,
+    username: 'test',
+    role: 'user',
+    phone: '13800138006',
+    email: 'test@example.com',
+    status: 'active',
+    createTime: '2024-01-07 12:00:00'
+  },
+  {
+    id: 8,
+    username: 'guest',
+    role: 'user',
+    phone: '13800138007',
+    email: 'guest@example.com',
+    status: 'inactive',
+    createTime: '2024-01-08 12:00:00'
   }
 ])
 

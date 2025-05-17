@@ -147,6 +147,18 @@ const storageData = ref<StorageItem[]>([
     used: '8.1TB',
     total: '10TB',
     usagePercentage: 81
+  },
+  {
+    name: '备份存储',
+    used: '12.5TB',
+    total: '20TB',
+    usagePercentage: 63
+  },
+  {
+    name: '归档存储',
+    used: '35.8TB',
+    total: '50TB',
+    usagePercentage: 72
   }
 ])
 
@@ -178,6 +190,33 @@ const transferData = ref<TransferItem[]>([
     size: '150GB',
     status: '暂停中',
     progress: 0
+  },
+  {
+    id: 4,
+    name: '数据库备份',
+    source: '/data/database',
+    destination: '/backup/database',
+    size: '1.2TB',
+    status: '进行中',
+    progress: 45
+  },
+  {
+    id: 5,
+    name: '应用数据同步',
+    source: '/data/apps',
+    destination: '/data/apps-backup',
+    size: '750GB',
+    status: '已完成',
+    progress: 100
+  },
+  {
+    id: 6,
+    name: '配置文件迁移',
+    source: '/config/old',
+    destination: '/config/new',
+    size: '50GB',
+    status: '进行中',
+    progress: 82
   }
 ])
 

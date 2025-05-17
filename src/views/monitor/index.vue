@@ -212,7 +212,7 @@ const alertList = ref([
     type: 'cpu',
     level: 'critical',
     status: 'active',
-    createTime: '2024-01-01 12:00:00'
+    createTime: '2024-03-15 14:30:00'
   },
   {
     id: 2,
@@ -220,7 +220,31 @@ const alertList = ref([
     type: 'memory',
     level: 'warning',
     status: 'processed',
-    createTime: '2024-01-02 12:00:00'
+    createTime: '2024-03-15 14:25:00'
+  },
+  {
+    id: 3,
+    name: '存储空间不足',
+    type: 'storage',
+    level: 'warning',
+    status: 'active',
+    createTime: '2024-03-15 14:20:00'
+  },
+  {
+    id: 4,
+    name: '网络延迟过高',
+    type: 'network',
+    level: 'normal',
+    status: 'processed',
+    createTime: '2024-03-15 14:15:00'
+  },
+  {
+    id: 5,
+    name: '数据库连接异常',
+    type: 'database',
+    level: 'critical',
+    status: 'active',
+    createTime: '2024-03-15 14:10:00'
   }
 ])
 
@@ -228,17 +252,59 @@ const alertList = ref([
 const logList = ref([
   {
     id: 1,
-    time: '2024-01-01 12:00:00',
+    time: '2024-03-15 14:30:00',
     level: 'info',
     module: '系统',
     content: '系统启动成功'
   },
   {
     id: 2,
-    time: '2024-01-01 12:01:00',
+    time: '2024-03-15 14:29:00',
     level: 'warning',
     module: 'CPU',
     content: 'CPU使用率超过80%'
+  },
+  {
+    id: 3,
+    time: '2024-03-15 14:28:00',
+    level: 'error',
+    module: '数据库',
+    content: '数据库连接超时'
+  },
+  {
+    id: 4,
+    time: '2024-03-15 14:27:00',
+    level: 'info',
+    module: '网络',
+    content: '网络设备状态检查完成'
+  },
+  {
+    id: 5,
+    time: '2024-03-15 14:26:00',
+    level: 'warning',
+    module: '存储',
+    content: '存储空间使用率超过70%'
+  },
+  {
+    id: 6,
+    time: '2024-03-15 14:25:00',
+    level: 'info',
+    module: '安全',
+    content: '安全扫描完成'
+  },
+  {
+    id: 7,
+    time: '2024-03-15 14:24:00',
+    level: 'error',
+    module: '应用',
+    content: '应用服务响应超时'
+  },
+  {
+    id: 8,
+    time: '2024-03-15 14:23:00',
+    level: 'info',
+    module: '备份',
+    content: '数据备份任务完成'
   }
 ])
 
