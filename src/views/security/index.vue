@@ -53,7 +53,7 @@
             </template>
           </el-table-column>
           <el-table-column label="流程" min-width="180">
-            <template #default="{ row }">
+            <template #default="{ row }: { row: any }">
               <el-steps :active="row.progress" finish-status="success" simple>
                 <el-step title="发现" />
                 <el-step title="分派" />
@@ -64,7 +64,7 @@
           </el-table-column>
           <el-table-column prop="createTime" label="发现时间" min-width="160" />
           <el-table-column label="操作" width="120">
-            <template #default="{ row }">
+            <template #default="{ row }: { row: any }">
               <el-button type="info" link @click="handleDetail(row)">详情</el-button>
             </template>
           </el-table-column>
