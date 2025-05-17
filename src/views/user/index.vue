@@ -8,9 +8,9 @@
             <el-button type="primary" @click="handleAdd">
               <el-icon><Plus /></el-icon>添加用户
             </el-button>
-            <el-button type="success" @click="handleRegister">
-              <el-icon><User /></el-icon>用户注册
-            </el-button>
+<!--            <el-button type="success" @click="handleRegister">-->
+<!--              <el-icon><User /></el-icon>用户注册-->
+<!--            </el-button>-->
           </div>
         </div>
       </template>
