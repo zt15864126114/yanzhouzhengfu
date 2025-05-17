@@ -46,7 +46,7 @@
           <el-table-column prop="eventName" label="事件名称" min-width="140" />
           <el-table-column prop="handler" label="处理人" min-width="100" />
           <el-table-column prop="status" label="处理状态" min-width="100">
-            <template #default="{ row }: { row: any }">
+            <template #default>
               <el-tag :type="row.status === '已处理' ? 'success' : row.status === '处理中' ? 'warning' : 'info'">
                 {{ row.status }}
               </el-tag>
@@ -148,7 +148,7 @@ const groupedList = computed(() => {
     level,
     list: securityList.value.filter(e => e.level === level).sort((a, b) => {
       // 状态排序：待处理 > 处理中 > 已处理
-      const order = { '待处理': 1, '处理中': 2, '已处理': 3 }
+      const order: Record<string, number> = { '待处理': 1, '处理中': 2, '已处理': 3 }
       return order[a.status] - order[b.status]
     })
   }))
