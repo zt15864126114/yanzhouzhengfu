@@ -83,33 +83,67 @@
             </div>
           </template>
 
-          <el-table :data="alertList" style="width: 100%" v-loading="loading">
-            <el-table-column prop="name" label="告警名称" />
-            <el-table-column prop="type" label="告警类型">
+          <!-- 搜索和操作栏 -->
+          <div class="operation-bar">
+            <el-form :inline="true" :model="searchForm" class="search-form">
+              <el-form-item>
+                <el-input v-model="searchForm.keyword" placeholder="告警内容/来源" clearable @keyup.enter="handleSearch" />
+              </el-form-item>
+              <el-form-item>
+                <el-select v-model="searchForm.level" placeholder="级别" clearable style="width: 120px">
+                  <el-option label="严重" value="critical" />
+                  <el-option label="警告" value="warning" />
+                  <el-option label="提示" value="info" />
+                </el-select>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="handleSearch">搜索</el-button>
+                <el-button @click="resetSearch">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+          <!-- 筛选条件标签区 -->
+          <el-row v-if="hasFilter" class="filter-tags" style="margin-bottom: 10px;">
+            <el-tag v-if="searchForm.level" type="info" closable @close="() => clearFilter('level')">
+              级别：{{ getLevelName(searchForm.level) }}
+            </el-tag>
+            <el-tag v-if="searchForm.keyword" type="info" closable @close="() => clearFilter('keyword')">
+              关键词：{{ searchForm.keyword }}
+            </el-tag>
+            <el-button v-if="hasFilter" size="small" type="text" @click="resetSearch">清除全部</el-button>
+          </el-row>
+          <!-- 告警列表 -->
+          <el-table :data="alertList" border style="width: 100%">
+            <el-table-column prop="time" label="时间" min-width="160" />
+            <el-table-column prop="level" label="级别" min-width="80">
               <template #default="{ row }">
-                <el-tag :type="getAlertTypeTag(row.type)">{{ row.type }}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column prop="level" label="告警级别">
-              <template #default="{ row }">
-                <el-tag :type="getAlertLevelTag(row.level)">{{ row.level }}</el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column prop="status" label="状态">
-              <template #default="{ row }">
-                <el-tag :type="row.status === 'active' ? 'danger' : 'success'">
-                  {{ row.status === 'active' ? '未处理' : '已处理' }}
+                <el-tag :type="row.level === 'critical' ? 'danger' : row.level === 'warning' ? 'warning' : 'info'">
+                  {{ getLevelName(row.level) }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" />
-            <el-table-column label="操作" width="200">
+            <el-table-column prop="content" label="内容" min-width="200" />
+            <el-table-column prop="source" label="来源" min-width="120" />
+            <el-table-column label="操作" width="220">
               <template #default="{ row }">
-                <el-button type="primary" size="small" @click="handleProcess(row)">处理</el-button>
-                <el-button type="danger" size="small" @click="handleDelete(row)">删除</el-button>
+                <div class="table-actions">
+                  <el-button type="primary" link @click="handleEdit(row)">编辑</el-button>
+                  <el-button type="danger" link @click="handleDelete(row)">删除</el-button>
+                </div>
               </template>
             </el-table-column>
           </el-table>
+          <div class="pagination">
+            <el-pagination
+              v-model:current-page="currentPage"
+              v-model:page-size="pageSize"
+              :page-sizes="[10, 20, 50, 100]"
+              :total="total"
+              layout="total, sizes, prev, pager, next, jumper"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
+          </div>
         </el-card>
       </el-col>
 
@@ -189,7 +223,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Refresh, Download } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
@@ -205,48 +239,12 @@ const systemStatus = reactive({
 
 // 告警列表
 const loading = ref(false)
-const alertList = ref([
-  {
-    id: 1,
-    name: 'CPU使用率过高',
-    type: 'cpu',
-    level: 'critical',
-    status: 'active',
-    createTime: '2024-03-15 14:30:00'
-  },
-  {
-    id: 2,
-    name: '内存使用率过高',
-    type: 'memory',
-    level: 'warning',
-    status: 'processed',
-    createTime: '2024-03-15 14:25:00'
-  },
-  {
-    id: 3,
-    name: '存储空间不足',
-    type: 'storage',
-    level: 'warning',
-    status: 'active',
-    createTime: '2024-03-15 14:20:00'
-  },
-  {
-    id: 4,
-    name: '网络延迟过高',
-    type: 'network',
-    level: 'normal',
-    status: 'processed',
-    createTime: '2024-03-15 14:15:00'
-  },
-  {
-    id: 5,
-    name: '数据库连接异常',
-    type: 'database',
-    level: 'critical',
-    status: 'active',
-    createTime: '2024-03-15 14:10:00'
-  }
+const originalAlertList = ref([
+  { id: 1, time: '2024-03-20 10:30:00', level: 'critical', content: '服务器CPU使用率超过90%', source: '服务器A' },
+  { id: 2, time: '2024-03-20 09:15:00', level: 'warning', content: '存储空间使用率超过80%', source: '存储阵列B' },
+  { id: 3, time: '2024-03-19 16:45:00', level: 'info', content: '系统更新可用', source: '系统' }
 ])
+const alertList = ref([...originalAlertList.value])
 
 // 日志列表
 const logList = ref([
@@ -337,6 +335,18 @@ const alertRules = {
 const cpuChartRef = ref()
 const memoryChartRef = ref()
 
+// 搜索表单
+const searchForm = reactive({
+  keyword: '',
+  level: ''
+})
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
+
+const hasFilter = computed(() => !!searchForm.level || !!searchForm.keyword)
+
 // 获取告警类型标签样式
 const getAlertTypeTag = (type: string) => {
   const typeMap: Record<string, string> = {
@@ -366,6 +376,14 @@ const getLogLevelTag = (level: string) => {
     error: 'danger'
   }
   return levelMap[level] || 'info'
+}
+
+// 获取级别名称
+const getLevelName = (level: string) => {
+  if (level === 'critical') return '严重'
+  if (level === 'warning') return '警告'
+  if (level === 'info') return '提示'
+  return level
 }
 
 // 刷新数据
@@ -492,8 +510,67 @@ const initCharts = () => {
   })
 }
 
+// 搜索
+const handleSearch = () => {
+  let filtered = [...originalAlertList.value]
+  if (searchForm.keyword) {
+    filtered = filtered.filter(d => d.content.includes(searchForm.keyword) || d.source.includes(searchForm.keyword))
+  }
+  if (searchForm.level) {
+    filtered = filtered.filter(d => d.level === searchForm.level)
+  }
+  total.value = filtered.length
+  alertList.value = filtered.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value)
+}
+
+const resetSearch = () => {
+  searchForm.keyword = ''
+  searchForm.level = ''
+  currentPage.value = 1
+  handleSearch()
+}
+
+const clearFilter = (key: 'level' | 'keyword') => {
+  searchForm[key] = ''
+  currentPage.value = 1
+  handleSearch()
+}
+
+// 新增告警
+const handleAdd = () => {
+  alertDialogVisible.value = true
+  alertForm.name = ''
+  alertForm.type = ''
+  alertForm.level = ''
+  alertForm.threshold = 80
+  alertForm.description = ''
+}
+
+// 编辑告警
+const handleEdit = (row: any) => {
+  alertDialogVisible.value = true
+  alertForm.name = row.name
+  alertForm.type = row.type
+  alertForm.level = row.level
+  alertForm.threshold = row.threshold
+  alertForm.description = row.description
+}
+
+// 处理大小变化
+const handleSizeChange = (val: number) => {
+  pageSize.value = val
+  handleSearch()
+}
+
+// 处理当前变化
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val
+  handleSearch()
+}
+
 onMounted(() => {
   initCharts()
+  handleSearch()
 })
 </script>
 
@@ -550,5 +627,49 @@ onMounted(() => {
 
 .chart {
   height: 300px;
+}
+
+.operation-bar {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.monitor-list {
+  margin-bottom: 20px;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filter-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.table-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.table-actions .el-button.is-link {
+  font-size: 13px;
+  padding: 0 6px;
+  min-width: 0;
+  max-width: 80px;
+  white-space: nowrap;
 }
 </style> 

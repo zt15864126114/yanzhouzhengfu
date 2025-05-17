@@ -196,4 +196,25 @@ html, body {
 /* 图标全局样式 */
 .el-icon {
   vertical-align: middle;
+}
+
+/* 表格操作列按钮美化 */
+.table-actions .el-button.is-link {
+  font-size: 14px;
+  padding: 0 10px;
+  min-width: 0;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 28px !important;
+  line-height: 28px !important;
+}
+.table-actions .el-button.is-link.is-danger {
+  color: #f56c6c !important;
+}
+.table-actions .el-button.is-link.is-primary {
+  color: #409eff !important;
+}
+.table-actions .el-button.is-link:active {
+  background: none !important;
 } 

@@ -1,362 +1,297 @@
 <template>
   <div class="resource-container">
-    <el-row :gutter="20">
-      <!-- 资源概览 -->
-      <el-col :span="24">
-        <el-card class="overview-card">
-          <template #header>
-            <div class="card-header">
-              <span>资源概览</span>
-              <el-button type="primary" @click="handleRefresh">
-                <el-icon><Refresh /></el-icon>刷新
-              </el-button>
-            </div>
-          </template>
-          <el-row :gutter="20">
-            <el-col :span="6">
-              <div class="overview-item">
-                <div class="item-title">CPU总核数</div>
-                <div class="item-value">{{ overview.cpu.total }}</div>
-                <div class="item-progress">
-                  <el-progress
-                    :percentage="overview.cpu.used"
-                    :format="format"
-                    :status="overview.cpu.used > 80 ? 'exception' : ''"
-                  />
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="overview-item">
-                <div class="item-title">内存总量</div>
-                <div class="item-value">{{ overview.memory.total }}GB</div>
-                <div class="item-progress">
-                  <el-progress
-                    :percentage="overview.memory.used"
-                    :format="format"
-                    :status="overview.memory.used > 80 ? 'exception' : ''"
-                  />
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="overview-item">
-                <div class="item-title">存储总量</div>
-                <div class="item-value">{{ overview.storage.total }}TB</div>
-                <div class="item-progress">
-                  <el-progress
-                    :percentage="overview.storage.used"
-                    :format="format"
-                    :status="overview.storage.used > 80 ? 'exception' : ''"
-                  />
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="overview-item">
-                <div class="item-title">虚拟机数量</div>
-                <div class="item-value">{{ overview.vm.total }}</div>
-                <div class="item-progress">
-                  <el-progress
-                    :percentage="overview.vm.used"
-                    :format="format"
-                    :status="overview.vm.used > 80 ? 'exception' : ''"
-                  />
-                </div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-card>
-      </el-col>
-
-      <!-- 资源分配 -->
-      <el-col :span="24" class="mt-20">
-        <el-card>
-          <template #header>
-            <div class="card-header">
-              <span>资源分配</span>
-              <el-button type="primary" @click="handleCreateVM">
-                <el-icon><Plus /></el-icon>创建虚拟机
-              </el-button>
-            </div>
-          </template>
-
-          <el-table :data="vmList" style="width: 100%" v-loading="loading">
-            <el-table-column prop="name" label="虚拟机名称" />
-            <el-table-column prop="cpu" label="CPU">
-              <template #default="{ row }">
-                {{ row.cpu }}核
-              </template>
-            </el-table-column>
-            <el-table-column prop="memory" label="内存">
-              <template #default="{ row }">
-                {{ row.memory }}GB
-              </template>
-            </el-table-column>
-            <el-table-column prop="storage" label="存储">
-              <template #default="{ row }">
-                {{ row.storage }}GB
-              </template>
-            </el-table-column>
-            <el-table-column prop="status" label="状态">
-              <template #default="{ row }">
-                <el-tag :type="row.status === 'running' ? 'success' : 'danger'">
-                  {{ row.status === 'running' ? '运行中' : '已停止' }}
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" />
-            <el-table-column label="操作" width="300">
-              <template #default="{ row }">
-                <el-button type="primary" size="small" @click="handleConfig(row)">配置</el-button>
-                <el-button type="success" size="small" @click="handleStart(row)" v-if="row.status !== 'running'">启动</el-button>
-                <el-button type="warning" size="small" @click="handleStop(row)" v-if="row.status === 'running'">停止</el-button>
-                <el-button type="danger" size="small" @click="handleDelete(row)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-card>
-      </el-col>
-    </el-row>
-
-    <!-- 创建虚拟机对话框 -->
-    <el-dialog
-      v-model="vmDialogVisible"
-      title="创建虚拟机"
-      width="600px"
-    >
-      <el-form
-        ref="vmFormRef"
-        :model="vmForm"
-        :rules="vmRules"
-        label-width="100px"
-      >
-        <el-form-item label="虚拟机名称" prop="name">
-          <el-input v-model="vmForm.name" placeholder="请输入虚拟机名称" />
+    <!-- 搜索和操作栏 -->
+    <div class="operation-bar">
+      <el-form :inline="true" :model="searchForm" class="search-form">
+        <el-form-item>
+          <el-input v-model="searchForm.keyword" placeholder="资源名称/编号" clearable @keyup.enter="handleSearch" />
         </el-form-item>
-        <el-form-item label="CPU" prop="cpu">
-          <el-input-number v-model="vmForm.cpu" :min="1" :max="16" />
-        </el-form-item>
-        <el-form-item label="内存" prop="memory">
-          <el-input-number v-model="vmForm.memory" :min="1" :max="64" />
-        </el-form-item>
-        <el-form-item label="存储" prop="storage">
-          <el-input-number v-model="vmForm.storage" :min="10" :max="1000" />
-        </el-form-item>
-        <el-form-item label="操作系统" prop="os">
-          <el-select v-model="vmForm.os" placeholder="请选择操作系统">
-            <el-option label="CentOS 7" value="centos7" />
-            <el-option label="Ubuntu 20.04" value="ubuntu20" />
-            <el-option label="Windows Server 2019" value="win2019" />
+        <el-form-item>
+          <el-select v-model="searchForm.type" placeholder="资源类型" clearable style="width: 140px">
+            <el-option label="计算资源" value="compute" />
+            <el-option label="存储资源" value="storage" />
+            <el-option label="网络资源" value="network" />
           </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="handleSearch">搜索</el-button>
+          <el-button @click="resetSearch">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!-- 筛选条件标签区 -->
+    <el-row v-if="hasFilter" class="filter-tags" style="margin-bottom: 10px;">
+      <el-tag v-if="searchForm.type" type="info" closable @close="() => clearFilter('type')">
+        类型：{{ getTypeName(searchForm.type) }}
+      </el-tag>
+      <el-tag v-if="searchForm.keyword" type="info" closable @close="() => clearFilter('keyword')">
+        关键词：{{ searchForm.keyword }}
+      </el-tag>
+      <el-button v-if="hasFilter" size="small" type="text" @click="resetSearch">清除全部</el-button>
+    </el-row>
+    <!-- 资源列表 -->
+    <el-card class="resource-list">
+      <el-button type="primary" @click="handleAdd" style="margin-bottom: 12px;">新增资源</el-button>
+      <el-table :data="resourceList" border style="width: 100%">
+        <el-table-column prop="name" label="资源名称" min-width="120" />
+        <el-table-column prop="code" label="资源编号" min-width="120" />
+        <el-table-column prop="type" label="类型" min-width="100">
+          <template #default="{ row }">
+            <el-tag>{{ getTypeName(row.type) }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="status" label="状态" min-width="100">
+          <template #default="{ row }">
+            <el-tag :type="row.status === 'active' ? 'success' : 'info'">
+              {{ row.status === 'active' ? '可用' : '停用' }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="owner" label="负责人" min-width="120" />
+        <el-table-column prop="createTime" label="添加时间" min-width="160" />
+        <el-table-column label="操作" width="260">
+          <template #default="{ row }">
+            <div class="table-actions">
+              <el-button type="primary" link @click="handleEdit(row)">编辑</el-button>
+              <el-button type="danger" link @click="handleDelete(row)">删除</el-button>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination">
+        <el-pagination
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
+          :page-sizes="[10, 20, 50, 100]"
+          :total="total"
+          layout="total, sizes, prev, pager, next, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+    </el-card>
+    <!-- 资源表单对话框 -->
+    <el-dialog v-model="dialogVisible" :title="dialogType === 'add' ? '新增资源' : '编辑资源'" width="500px">
+      <el-form ref="resourceFormRef" :model="resourceForm" :rules="resourceRules" label-width="90px">
+        <el-form-item label="资源名称" prop="name">
+          <el-input v-model="resourceForm.name" placeholder="请输入资源名称" />
+        </el-form-item>
+        <el-form-item label="资源编号" prop="code">
+          <el-input v-model="resourceForm.code" placeholder="请输入资源编号" />
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-select v-model="resourceForm.type" placeholder="请选择类型" style="width: 140px">
+            <el-option label="计算资源" value="compute" />
+            <el-option label="存储资源" value="storage" />
+            <el-option label="网络资源" value="network" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="resourceForm.status" placeholder="请选择状态" style="width: 140px">
+            <el-option label="可用" value="active" />
+            <el-option label="停用" value="inactive" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="负责人" prop="owner">
+          <el-input v-model="resourceForm.owner" placeholder="请输入负责人" />
         </el-form-item>
       </el-form>
       <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="vmDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleVMSubmit">确定</el-button>
-        </span>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleSubmit">确定</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Refresh } from '@element-plus/icons-vue'
 import type { FormInstance } from 'element-plus'
 
-// 资源概览数据
-const overview = reactive({
-  cpu: {
-    total: 64,
-    used: 45
-  },
-  memory: {
-    total: 256,
-    used: 60
-  },
-  storage: {
-    total: 50,
-    used: 35
-  },
-  vm: {
-    total: 20,
-    used: 75
-  }
-})
+interface ResourceItem {
+  id: number;
+  name: string;
+  code: string;
+  type: string;
+  status: string;
+  owner: string;
+  createTime: string;
+}
 
-// 虚拟机列表
-const loading = ref(false)
-const vmList = ref([
-  {
-    id: 1,
-    name: 'VM-001',
-    cpu: 4,
-    memory: 8,
-    storage: 100,
-    status: 'running',
-    createTime: '2024-01-01 12:00:00'
-  },
-  {
-    id: 2,
-    name: 'VM-002',
-    cpu: 8,
-    memory: 16,
-    storage: 200,
-    status: 'stopped',
-    createTime: '2024-01-02 12:00:00'
-  }
+const originalResourceList = ref<ResourceItem[]>([
+  { id: 1, name: '高性能计算节点', code: 'CMP-001', type: 'compute', status: 'active', owner: '张三', createTime: '2024-03-20 10:00:00' },
+  { id: 2, name: '企业级存储阵列', code: 'STO-002', type: 'storage', status: 'active', owner: '李四', createTime: '2024-03-19 09:00:00' },
+  { id: 3, name: '核心交换网络', code: 'NET-003', type: 'network', status: 'inactive', owner: '王五', createTime: '2024-03-18 14:00:00' }
 ])
+const resourceList = ref<ResourceItem[]>([])
 
-// 创建虚拟机对话框
-const vmDialogVisible = ref(false)
-const vmFormRef = ref<FormInstance>()
-const vmForm = reactive({
-  name: '',
-  cpu: 2,
-  memory: 4,
-  storage: 50,
-  os: ''
+const searchForm = reactive({
+  keyword: '',
+  type: ''
 })
 
-// 表单验证规则
-const vmRules = {
-  name: [
-    { required: true, message: '请输入虚拟机名称', trigger: 'blur' },
-    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
-  ],
-  os: [
-    { required: true, message: '请选择操作系统', trigger: 'change' }
-  ]
+const currentPage = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
+
+const dialogVisible = ref(false)
+const dialogType = ref<'add' | 'edit'>('add')
+const resourceFormRef = ref<FormInstance>()
+const resourceForm = reactive<ResourceItem>({
+  id: 0,
+  name: '',
+  code: '',
+  type: '',
+  status: 'active',
+  owner: '',
+  createTime: ''
+})
+
+const resourceRules = {
+  name: [{ required: true, message: '请输入资源名称', trigger: 'blur' }],
+  code: [{ required: true, message: '请输入资源编号', trigger: 'blur' }],
+  type: [{ required: true, message: '请选择类型', trigger: 'change' }],
+  status: [{ required: true, message: '请选择状态', trigger: 'change' }],
+  owner: [{ required: true, message: '请输入负责人', trigger: 'blur' }]
 }
 
-// 格式化进度条文本
-const format = (percentage: number) => {
-  return percentage + '%'
+const hasFilter = computed(() => !!searchForm.type || !!searchForm.keyword)
+
+const getTypeName = (type: string) => {
+  if (type === 'compute') return '计算资源'
+  if (type === 'storage') return '存储资源'
+  if (type === 'network') return '网络资源'
+  return type
+}
+const clearFilter = (key: 'type' | 'keyword') => {
+  searchForm[key] = ''
+  currentPage.value = 1
+  handleSearch()
 }
 
-// 刷新数据
-const handleRefresh = () => {
-  loading.value = true
-  // 模拟刷新请求
-  setTimeout(() => {
-    loading.value = false
-    ElMessage.success('数据已刷新')
-  }, 1000)
+const handleSearch = () => {
+  let filtered = [...originalResourceList.value]
+  if (searchForm.keyword) {
+    filtered = filtered.filter(d => d.name.includes(searchForm.keyword) || d.code.includes(searchForm.keyword))
+  }
+  if (searchForm.type) {
+    filtered = filtered.filter(d => d.type === searchForm.type)
+  }
+  total.value = filtered.length
+  resourceList.value = filtered.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value)
 }
 
-// 创建虚拟机
-const handleCreateVM = () => {
-  vmDialogVisible.value = true
-  vmForm.name = ''
-  vmForm.cpu = 2
-  vmForm.memory = 4
-  vmForm.storage = 50
-  vmForm.os = ''
+const resetSearch = () => {
+  searchForm.keyword = ''
+  searchForm.type = ''
+  currentPage.value = 1
+  handleSearch()
 }
 
-// 配置虚拟机
-const handleConfig = (row: any) => {
-  vmDialogVisible.value = true
-  Object.assign(vmForm, row)
+const handleAdd = () => {
+  dialogType.value = 'add'
+  dialogVisible.value = true
+  resourceForm.id = 0
+  resourceForm.name = ''
+  resourceForm.code = ''
+  resourceForm.type = ''
+  resourceForm.status = 'active'
+  resourceForm.owner = ''
+  resourceForm.createTime = ''
 }
-
-// 启动虚拟机
-const handleStart = (row: any) => {
-  ElMessageBox.confirm(
-    `确认启动虚拟机"${row.name}"吗？`,
-    '提示',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
+const handleEdit = (row: ResourceItem) => {
+  dialogType.value = 'edit'
+  dialogVisible.value = true
+  Object.assign(resourceForm, row)
+}
+const handleDelete = (row: ResourceItem) => {
+  ElMessageBox.confirm('确定要删除该资源吗？', '警告', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    const idx = originalResourceList.value.findIndex(d => d.id === row.id)
+    if (idx !== -1) {
+      originalResourceList.value.splice(idx, 1)
+      handleSearch()
+      ElMessage.success('删除成功')
     }
-  ).then(() => {
-    ElMessage.success(`虚拟机"${row.name}"启动中`)
   })
 }
-
-// 停止虚拟机
-const handleStop = (row: any) => {
-  ElMessageBox.confirm(
-    `确认停止虚拟机"${row.name}"吗？`,
-    '警告',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }
-  ).then(() => {
-    ElMessage.success(`虚拟机"${row.name}"已停止`)
-  })
-}
-
-// 删除虚拟机
-const handleDelete = (row: any) => {
-  ElMessageBox.confirm(
-    `确认删除虚拟机"${row.name}"吗？`,
-    '警告',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }
-  ).then(() => {
-    ElMessage.success(`虚拟机"${row.name}"已删除`)
-  })
-}
-
-// 提交虚拟机表单
-const handleVMSubmit = async () => {
-  if (!vmFormRef.value) return
-  
-  await vmFormRef.value.validate((valid) => {
+const handleSubmit = async () => {
+  if (!resourceFormRef.value) return
+  await resourceFormRef.value.validate((valid) => {
     if (valid) {
-      vmDialogVisible.value = false
-      ElMessage.success('创建成功')
+      if (dialogType.value === 'add') {
+        const newResource = { ...resourceForm, id: Date.now(), createTime: new Date().toLocaleString() }
+        originalResourceList.value.unshift(newResource)
+        handleSearch()
+        ElMessage.success('新增成功')
+      } else {
+        const idx = originalResourceList.value.findIndex(d => d.id === resourceForm.id)
+        if (idx !== -1) {
+          originalResourceList.value[idx] = { ...resourceForm, id: resourceForm.id, createTime: resourceForm.createTime }
+          handleSearch()
+          ElMessage.success('修改成功')
+        }
+      }
+      dialogVisible.value = false
     }
   })
 }
+const handleSizeChange = (val: number) => {
+  pageSize.value = val
+  handleSearch()
+}
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val
+  handleSearch()
+}
+onMounted(() => {
+  handleSearch()
+})
 </script>
 
 <style scoped>
 .resource-container {
   padding: 20px;
 }
-
-.mt-20 {
-  margin-top: 20px;
-}
-
-.card-header {
+.operation-bar {
+  margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
-.overview-item {
-  text-align: center;
-  padding: 20px;
-  background: #f5f7fa;
-  border-radius: 4px;
+.search-form {
+  display: flex;
+  align-items: center;
 }
-
-.item-title {
-  font-size: 14px;
-  color: #909399;
-  margin-bottom: 10px;
+.resource-list {
+  margin-bottom: 20px;
 }
-
-.item-value {
-  font-size: 24px;
-  font-weight: bold;
-  color: #303133;
-  margin-bottom: 10px;
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
-
-.item-progress {
-  margin-top: 10px;
+.filter-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.table-actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.table-actions .el-button.is-link {
+  font-size: 13px;
+  padding: 0 6px;
+  min-width: 0;
+  max-width: 80px;
+  white-space: nowrap;
 }
 </style> 

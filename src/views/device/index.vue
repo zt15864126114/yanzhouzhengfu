@@ -348,13 +348,19 @@ const monitorDevice = ref<any>({})
 const cpuChartRef = ref()
 const memoryChartRef = ref()
 
+// 新增：当前编辑的设备类型和编辑项
+const editType = ref<'network' | 'server' | 'storage'>('network')
+const editRowId = ref<number|null>(null)
+
 // 添加网络设备
 const handleAddNetwork = () => {
   configDialogVisible.value = true
   configForm.name = ''
   configForm.ip = ''
-  configForm.type = ''
+  configForm.type = 'switch'
   configForm.description = ''
+  editType.value = 'network'
+  editRowId.value = null
 }
 
 // 添加服务器
@@ -364,6 +370,8 @@ const handleAddServer = () => {
   configForm.ip = ''
   configForm.type = 'server'
   configForm.description = ''
+  editType.value = 'server'
+  editRowId.value = null
 }
 
 // 添加存储设备
@@ -373,12 +381,19 @@ const handleAddStorage = () => {
   configForm.ip = ''
   configForm.type = 'storage'
   configForm.description = ''
+  editType.value = 'storage'
+  editRowId.value = null
 }
 
-// 配置设备
+// 配置设备（编辑）
 const handleConfig = (row: any) => {
   configDialogVisible.value = true
   Object.assign(configForm, row)
+  // 判断类型
+  if (serverList.value.some(d => d.id === row.id)) editType.value = 'server'
+  else if (storageList.value.some(d => d.id === row.id)) editType.value = 'storage'
+  else editType.value = 'network'
+  editRowId.value = row.id
 }
 
 // 监控设备
@@ -417,14 +432,66 @@ const handleDelete = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
+    if (networkList.value.some(d => d.id === row.id)) {
+      const idx = networkList.value.findIndex(d => d.id === row.id)
+      if (idx !== -1) networkList.value.splice(idx, 1)
+    } else if (serverList.value.some(d => d.id === row.id)) {
+      const idx = serverList.value.findIndex(d => d.id === row.id)
+      if (idx !== -1) serverList.value.splice(idx, 1)
+    } else if (storageList.value.some(d => d.id === row.id)) {
+      const idx = storageList.value.findIndex(d => d.id === row.id)
+      if (idx !== -1) storageList.value.splice(idx, 1)
+    }
     ElMessage.success(`设备"${row.name}"已删除`)
   })
 }
 
-// 提交配置
+// 提交配置（新增或编辑）
 const handleConfigSubmit = () => {
+  if (editRowId.value) {
+    // 编辑
+    let list = editType.value === 'network' ? networkList.value : editType.value === 'server' ? serverList.value : storageList.value
+    const idx = list.findIndex(d => d.id === editRowId.value)
+    if (idx !== -1) {
+      list[idx] = { ...list[idx], ...configForm }
+    }
+    ElMessage.success('配置已保存')
+  } else {
+    // 新增
+    const newId = Date.now()
+    if (editType.value === 'network') {
+      networkList.value.unshift({
+        id: newId,
+        name: configForm.name,
+        ip: configForm.ip,
+        type: configForm.type,
+        status: 'online',
+        lastCheck: new Date().toLocaleString()
+      })
+    } else if (editType.value === 'server') {
+      serverList.value.unshift({
+        id: newId,
+        name: configForm.name,
+        ip: configForm.ip,
+        cpu: 0,
+        memory: 0,
+        status: 'running',
+        lastCheck: new Date().toLocaleString()
+      })
+    } else if (editType.value === 'storage') {
+      storageList.value.unshift({
+        id: newId,
+        name: configForm.name,
+        type: configForm.type,
+        capacity: '10TB',
+        used: 0,
+        status: 'normal',
+        lastCheck: new Date().toLocaleString()
+      })
+    }
+    ElMessage.success('添加成功')
+  }
   configDialogVisible.value = false
-  ElMessage.success('配置已保存')
 }
 
 // 初始化图表
