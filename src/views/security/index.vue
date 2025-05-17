@@ -46,7 +46,7 @@
           <el-table-column prop="eventName" label="事件名称" min-width="140" />
           <el-table-column prop="handler" label="处理人" min-width="100" />
           <el-table-column prop="status" label="处理状态" min-width="100">
-            <template #default>
+            <template #default="{ row }: { row: any }">
               <el-tag :type="row.status === '已处理' ? 'success' : row.status === '处理中' ? 'warning' : 'info'">
                 {{ row.status }}
               </el-tag>
