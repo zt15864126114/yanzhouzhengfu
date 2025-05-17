@@ -3,8 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: '/yanzhouzhengfu/',
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/yanzhouzhengfu/' : '/',
   plugins: [vue()],
   resolve: {
     alias: {
@@ -22,4 +22,4 @@ export default defineConfig({
       }
     }
   }
-})
+}))
