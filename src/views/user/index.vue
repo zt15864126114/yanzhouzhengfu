@@ -380,38 +380,6 @@ const mockUsers: User[] = [
   }
 ]
 
-// 模拟角色数据
-const mockRoles: Role[] = [
-  {
-    id: 1,
-    name: '系统管理员',
-    description: '系统最高权限管理员',
-    permissions: ['all'],
-    createTime: '2023-01-01'
-  },
-  {
-    id: 2,
-    name: '运维管理员',
-    description: '负责系统运维和监控',
-    permissions: ['monitor', 'device', 'resource'],
-    createTime: '2023-01-01'
-  },
-  {
-    id: 3,
-    name: '部门管理员',
-    description: '部门级管理员',
-    permissions: ['user', 'data'],
-    createTime: '2023-01-01'
-  },
-  {
-    id: 4,
-    name: '普通用户',
-    description: '基础功能使用权限',
-    permissions: ['view'],
-    createTime: '2023-01-01'
-  }
-]
-
 // 展示用用户数据
 const userList = ref<User[]>([])
 
@@ -440,15 +408,6 @@ interface UserForm {
   createTime: string
 }
 
-// 角色表单类型
-interface RoleForm {
-  id?: number
-  name: string
-  description: string
-  permissions: string[]
-  createTime: string
-}
-
 // 用户类型
 type User = {
   id: number
@@ -461,15 +420,6 @@ type User = {
   role: string
   status: string
   lastLogin: string
-  createTime: string
-}
-
-// 角色类型
-type Role = {
-  id: number
-  name: string
-  description: string
-  permissions: string[]
   createTime: string
 }
 
@@ -488,41 +438,10 @@ const userForm = reactive<UserForm>({
   createTime: ''
 })
 
-// 角色表单
-const roleForm = reactive<RoleForm>({
-  id: 0,
-  name: '',
-  description: '',
-  permissions: [],
-  createTime: ''
-})
-
-// 表单验证规则
-const userRules = {
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
-  ],
-  name: [
-    { required: true, message: '请输入姓名', trigger: 'blur' }
-  ],
-  phone: [
-    { required: true, message: '请输入手机号', trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
-  ],
-  email: [
-    { required: true, message: '请输入邮箱', trigger: 'blur' },
-    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-  ],
-  role: [
-    { required: true, message: '请选择角色', trigger: 'change' }
-  ]
-}
-
 // 角色管理
 const roleDialogVisible = ref(false)
 const activeRoleTab = ref('list')
-const roleList = ref<Role[]>([])
+const roleList = ref<any[]>([])
 
 // 权限树
 const permissionTreeRef = ref()
@@ -685,7 +604,7 @@ const handleAddRole = () => {
     inputPattern: /^.{2,20}$/,
     inputErrorMessage: '角色名称长度为2-20个字符'
   }).then(({ value }) => {
-    const newRole: Role = {
+    const newRole: any = {
       id: Date.now(),
       name: value,
       description: '',
@@ -765,6 +684,28 @@ const clearFilter = (key: 'role' | 'status' | 'keyword') => {
   searchForm[key] = ''
   currentPage.value = 1
   handleSearch()
+}
+
+// 表单验证规则
+const userRules = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
+  ],
+  name: [
+    { required: true, message: '请输入姓名', trigger: 'blur' }
+  ],
+  phone: [
+    { required: true, message: '请输入手机号', trigger: 'blur' },
+    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
+  ],
+  email: [
+    { required: true, message: '请输入邮箱', trigger: 'blur' },
+    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+  ],
+  role: [
+    { required: true, message: '请选择角色', trigger: 'change' }
+  ]
 }
 
 onMounted(() => {
