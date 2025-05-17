@@ -77,12 +77,6 @@ const router = createRouter({
           meta: { title: '业务系统', icon: 'Cpu' }
         },
         {
-          path: 'security',
-          name: 'Security',
-          component: () => import('@/views/security/index.vue'),
-          meta: { title: '安全事件', icon: 'Lock' }
-        },
-        {
           path: 'energy',
           name: 'Energy',
           component: () => import('@/views/energy/index.vue'),
