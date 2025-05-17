@@ -5,8 +5,16 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/login/index.vue')
+    },
+    {
+      path: '/',
       component: () => import('@/views/layout/index.vue'),
-      redirect: '/login',
       children: [
         {
           path: 'dashboard',
@@ -45,11 +53,6 @@ const router = createRouter({
           meta: { title: '监控告警', icon: 'Warning' }
         }
       ]
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: () => import('@/views/login/index.vue')
     }
   ]
 })
