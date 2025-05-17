@@ -103,12 +103,6 @@
   <script setup lang="ts">
   import { ref, onMounted, onUnmounted } from 'vue';
   import * as echarts from 'echarts';
-  import {
-    Monitor,
-    Connection,
-    DataLine,
-    Warning
-  } from '@element-plus/icons-vue';
   
   // 数据概览
   const overviewData = ref([

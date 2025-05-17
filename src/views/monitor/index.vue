@@ -347,27 +347,6 @@ const total = ref(0)
 
 const hasFilter = computed(() => !!searchForm.level || !!searchForm.keyword)
 
-// 获取告警类型标签样式
-const getAlertTypeTag = (type: string) => {
-  const typeMap: Record<string, string> = {
-    cpu: 'danger',
-    memory: 'warning',
-    storage: 'info',
-    network: 'success'
-  }
-  return typeMap[type] || 'info'
-}
-
-// 获取告警级别标签样式
-const getAlertLevelTag = (level: string) => {
-  const levelMap: Record<string, string> = {
-    normal: 'info',
-    warning: 'warning',
-    critical: 'danger'
-  }
-  return levelMap[level] || 'info'
-}
-
 // 获取日志级别标签样式
 const getLogLevelTag = (level: string) => {
   const levelMap: Record<string, string> = {
@@ -404,21 +383,6 @@ const handleAddAlert = () => {
   alertForm.level = ''
   alertForm.threshold = 80
   alertForm.description = ''
-}
-
-// 处理告警
-const handleProcess = (row: any) => {
-  ElMessageBox.confirm(
-    `确认处理告警"${row.name}"吗？`,
-    '提示',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }
-  ).then(() => {
-    ElMessage.success(`告警"${row.name}"已处理`)
-  })
 }
 
 // 删除告警
@@ -534,16 +498,6 @@ const clearFilter = (key: 'level' | 'keyword') => {
   searchForm[key] = ''
   currentPage.value = 1
   handleSearch()
-}
-
-// 新增告警
-const handleAdd = () => {
-  alertDialogVisible.value = true
-  alertForm.name = ''
-  alertForm.type = ''
-  alertForm.level = ''
-  alertForm.threshold = 80
-  alertForm.description = ''
 }
 
 // 编辑告警
