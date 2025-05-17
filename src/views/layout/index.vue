@@ -79,7 +79,7 @@ const router = useRouter()
 const isCollapse = ref(false)
 
 const routes = computed(() => {
-  return router.options.routes[0].children || []
+  return router.options.routes.find(r => r.path === '/' && r.children)?.children || []
 })
 
 const toggleCollapse = () => {
