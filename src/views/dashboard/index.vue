@@ -254,10 +254,33 @@
     });
   };
   
+  // 初始化系统负载图表
+  const initLoadChart = () => {
+    if (!loadChartRef.value) return;
+    const chart = echarts.init(loadChartRef.value);
+    const option = {
+      title: { text: '系统负载' },
+      tooltip: { trigger: 'axis' },
+      xAxis: { type: 'category', data: ['00:00','04:00','08:00','12:00','16:00','20:00','24:00'] },
+      yAxis: { type: 'value', max: 100 },
+      series: [{
+        name: '负载率',
+        type: 'line',
+        data: [30, 45, 60, 80, 65, 50, 40],
+        smooth: true,
+        lineStyle: { width: 3 },
+        areaStyle: { opacity: 0.1 }
+      }]
+    };
+    chart.setOption(option);
+    window.addEventListener('resize', () => chart.resize());
+  };
+  
   // 组件挂载后初始化图表
   onMounted(() => {
     initDeviceChart();
     initResourceChart();
+    initLoadChart();
   });
   </script>
   
@@ -303,6 +326,10 @@
   }
   
   .chart-container {
+    height: 300px;
+  }
+  
+  .chart {
     height: 300px;
   }
   </style>

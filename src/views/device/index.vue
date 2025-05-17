@@ -394,7 +394,7 @@ const handleMonitor = (row: any) => {
 // 重启设备
 const handleRestart = (row: any) => {
   ElMessageBox.confirm(
-    '确认重启该设备吗？',
+    `确认重启设备"${row.name}"吗？`,
     '警告',
     {
       confirmButtonText: '确定',
@@ -402,14 +402,14 @@ const handleRestart = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('重启命令已发送')
+    ElMessage.success(`设备"${row.name}"重启命令已发送`)
   })
 }
 
 // 删除设备
 const handleDelete = (row: any) => {
   ElMessageBox.confirm(
-    '确认删除该设备吗？',
+    `确认删除设备"${row.name}"吗？`,
     '警告',
     {
       confirmButtonText: '确定',
@@ -417,7 +417,7 @@ const handleDelete = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('删除成功')
+    ElMessage.success(`设备"${row.name}"已删除`)
   })
 }
 

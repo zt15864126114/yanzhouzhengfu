@@ -423,7 +423,7 @@ const handleEdit = (row: any) => {
 // 删除用户
 const handleDelete = (row: any) => {
   ElMessageBox.confirm(
-    '确认删除该用户吗？',
+    `确认删除用户"${row.username}"吗？`,
     '警告',
     {
       confirmButtonText: '确定',
@@ -431,7 +431,7 @@ const handleDelete = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('删除成功')
+    ElMessage.success(`用户"${row.username}"已删除`)
   })
 }
 

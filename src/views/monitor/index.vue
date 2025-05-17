@@ -391,7 +391,7 @@ const handleAddAlert = () => {
 // 处理告警
 const handleProcess = (row: any) => {
   ElMessageBox.confirm(
-    '确认处理该告警吗？',
+    `确认处理告警"${row.name}"吗？`,
     '提示',
     {
       confirmButtonText: '确定',
@@ -399,14 +399,14 @@ const handleProcess = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('处理成功')
+    ElMessage.success(`告警"${row.name}"已处理`)
   })
 }
 
 // 删除告警
 const handleDelete = (row: any) => {
   ElMessageBox.confirm(
-    '确认删除该告警吗？',
+    `确认删除告警"${row.name}"吗？`,
     '警告',
     {
       confirmButtonText: '确定',
@@ -414,7 +414,7 @@ const handleDelete = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('删除成功')
+    ElMessage.success(`告警"${row.name}"已删除`)
   })
 }
 

@@ -266,7 +266,7 @@ const handleConfig = (row: any) => {
 // 启动虚拟机
 const handleStart = (row: any) => {
   ElMessageBox.confirm(
-    '确认启动该虚拟机吗？',
+    `确认启动虚拟机"${row.name}"吗？`,
     '提示',
     {
       confirmButtonText: '确定',
@@ -274,14 +274,14 @@ const handleStart = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('虚拟机启动中')
+    ElMessage.success(`虚拟机"${row.name}"启动中`)
   })
 }
 
 // 停止虚拟机
 const handleStop = (row: any) => {
   ElMessageBox.confirm(
-    '确认停止该虚拟机吗？',
+    `确认停止虚拟机"${row.name}"吗？`,
     '警告',
     {
       confirmButtonText: '确定',
@@ -289,14 +289,14 @@ const handleStop = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('虚拟机已停止')
+    ElMessage.success(`虚拟机"${row.name}"已停止`)
   })
 }
 
 // 删除虚拟机
 const handleDelete = (row: any) => {
   ElMessageBox.confirm(
-    '确认删除该虚拟机吗？',
+    `确认删除虚拟机"${row.name}"吗？`,
     '警告',
     {
       confirmButtonText: '确定',
@@ -304,7 +304,7 @@ const handleDelete = (row: any) => {
       type: 'warning'
     }
   ).then(() => {
-    ElMessage.success('删除成功')
+    ElMessage.success(`虚拟机"${row.name}"已删除`)
   })
 }
 
