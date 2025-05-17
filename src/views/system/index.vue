@@ -73,7 +73,6 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { ElMessage } from 'element-plus'
 import { Monitor, Platform, Cpu, DataLine, Connection, Warning, Box, Folder } from '@element-plus/icons-vue'
 
 interface SystemItem {
@@ -85,8 +84,6 @@ interface SystemItem {
   updateTime: string;
   icon: any;
 }
-
-const iconMap = [Monitor, Platform, Cpu, DataLine, Connection, Warning, Box, Folder]
 
 const originalSystemList = ref<SystemItem[]>([
   { id: 1, systemName: '人口管理系统', owner: '李明', status: '运行中', desc: '人口信息管理', updateTime: '2024-04-01 09:00', icon: Monitor },
