@@ -15,6 +15,7 @@
 
           <el-table :data="networkList" style="width: 100%" v-loading="loading">
             <el-table-column prop="name" label="设备名称" />
+            <el-table-column prop="brand" label="品牌" />
             <el-table-column prop="ip" label="IP地址" />
             <el-table-column prop="type" label="设备类型" />
             <el-table-column prop="status" label="状态">
@@ -50,6 +51,7 @@
 
           <el-table :data="serverList" style="width: 100%" v-loading="loading">
             <el-table-column prop="name" label="服务器名称" />
+            <el-table-column prop="brand" label="品牌" />
             <el-table-column prop="ip" label="IP地址" />
             <el-table-column prop="cpu" label="CPU使用率">
               <template #default="{ row }">
@@ -94,6 +96,7 @@
 
           <el-table :data="storageList" style="width: 100%" v-loading="loading">
             <el-table-column prop="name" label="存储名称" />
+            <el-table-column prop="brand" label="品牌" />
             <el-table-column prop="type" label="存储类型" />
             <el-table-column prop="capacity" label="总容量" />
             <el-table-column prop="used" label="已用容量">
@@ -143,6 +146,12 @@
             <el-option label="路由器" value="router" />
             <el-option label="防火墙" value="firewall" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="品牌">
+          <el-input v-model="configForm.brand" />
+        </el-form-item>
+        <el-form-item label="操作系统">
+          <el-input v-model="configForm.os" />
         </el-form-item>
         <el-form-item label="描述">
           <el-input v-model="configForm.description" type="textarea" />
@@ -195,42 +204,92 @@ const networkList = ref([
   {
     id: 1,
     name: '核心交换机-01',
-    ip: '192.168.1.1',
+    ip: '10.10.1.1',
     type: 'switch',
+    brand: '华为',
     status: 'online',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 2,
     name: '核心交换机-02',
-    ip: '192.168.1.2',
+    ip: '10.10.1.2',
     type: 'switch',
+    brand: '华三',
     status: 'online',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 3,
     name: '边界路由器-01',
-    ip: '192.168.1.3',
+    ip: '10.10.2.1',
     type: 'router',
+    brand: '锐捷',
     status: 'online',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 4,
     name: '防火墙-01',
-    ip: '192.168.1.4',
+    ip: '10.10.3.1',
     type: 'firewall',
+    brand: '深信服',
     status: 'online',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 5,
     name: '负载均衡器-01',
-    ip: '192.168.1.5',
+    ip: '10.10.4.1',
     type: 'loadbalancer',
+    brand: 'F5',
     status: 'maintenance',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 6,
+    name: '接入交换机-01',
+    ip: '10.10.5.1',
+    type: 'switch',
+    brand: '华为',
+    status: 'online',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 7,
+    name: '接入交换机-02',
+    ip: '10.10.5.2',
+    type: 'switch',
+    brand: '华三',
+    status: 'offline',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 8,
+    name: '无线控制器-01',
+    ip: '10.10.6.1',
+    type: 'controller',
+    brand: '锐捷',
+    status: 'online',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 9,
+    name: '核心路由器-01',
+    ip: '10.10.2.2',
+    type: 'router',
+    brand: '华为',
+    status: 'online',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 10,
+    name: '防火墙-02',
+    ip: '10.10.3.2',
+    type: 'firewall',
+    brand: '深信服',
+    status: 'offline',
+    lastCheck: '2024-03-20 09:00:00'
   }
 ])
 
@@ -238,48 +297,113 @@ const networkList = ref([
 const serverList = ref([
   {
     id: 1,
-    name: '应用服务器-01',
-    ip: '192.168.1.10',
+    name: '政务应用服务器-01',
+    ip: '10.20.1.10',
     cpu: 45,
     memory: 60,
+    brand: '浪潮',
+    os: 'Windows Server 2019',
     status: 'running',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 2,
-    name: '应用服务器-02',
-    ip: '192.168.1.11',
+    name: '政务应用服务器-02',
+    ip: '10.20.1.11',
     cpu: 52,
     memory: 68,
+    brand: '华为',
+    os: 'CentOS 7',
     status: 'running',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 3,
     name: '数据库服务器-01',
-    ip: '192.168.1.12',
+    ip: '10.20.2.10',
     cpu: 75,
     memory: 85,
+    brand: '戴尔',
+    os: 'Windows Server 2016',
     status: 'running',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 4,
     name: '数据库服务器-02',
-    ip: '192.168.1.13',
+    ip: '10.20.2.11',
     cpu: 68,
     memory: 78,
-    status: 'running',
-    lastCheck: '2024-03-15 14:30:00'
+    brand: '联想',
+    os: 'Ubuntu 20.04',
+    status: 'stopped',
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 5,
     name: '缓存服务器-01',
-    ip: '192.168.1.14',
+    ip: '10.20.3.10',
     cpu: 35,
     memory: 45,
+    brand: '浪潮',
+    os: 'CentOS 7',
     status: 'running',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 6,
+    name: '虚拟化服务器-01',
+    ip: '10.20.4.10',
+    cpu: 55,
+    memory: 70,
+    brand: '华为',
+    os: 'VMware ESXi',
+    status: 'running',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 7,
+    name: '虚拟化服务器-02',
+    ip: '10.20.4.11',
+    cpu: 62,
+    memory: 80,
+    brand: '戴尔',
+    os: 'VMware ESXi',
+    status: 'running',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 8,
+    name: '备份服务器-01',
+    ip: '10.20.5.10',
+    cpu: 28,
+    memory: 38,
+    brand: '联想',
+    os: 'Windows Server 2012',
+    status: 'stopped',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 9,
+    name: '政务门户服务器',
+    ip: '10.20.6.10',
+    cpu: 48,
+    memory: 55,
+    brand: '浪潮',
+    os: 'CentOS 7',
+    status: 'running',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 10,
+    name: 'OA系统服务器',
+    ip: '10.20.7.10',
+    cpu: 38,
+    memory: 50,
+    brand: '华为',
+    os: 'Windows Server 2019',
+    status: 'running',
+    lastCheck: '2024-03-20 09:00:00'
   }
 ])
 
@@ -289,46 +413,71 @@ const storageList = ref([
     id: 1,
     name: '主存储-01',
     type: 'SAN',
+    brand: '华为',
     capacity: '50TB',
     used: 65,
     status: 'normal',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 2,
     name: '主存储-02',
     type: 'SAN',
+    brand: '浪潮',
     capacity: '50TB',
     used: 58,
     status: 'normal',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 3,
     name: '备份存储-01',
     type: 'NAS',
+    brand: '华为',
     capacity: '30TB',
     used: 45,
     status: 'normal',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 4,
     name: '备份存储-02',
     type: 'NAS',
+    brand: '联想',
     capacity: '30TB',
     used: 42,
-    status: 'normal',
-    lastCheck: '2024-03-15 14:30:00'
+    status: 'abnormal',
+    lastCheck: '2024-03-20 09:00:00'
   },
   {
     id: 5,
     name: '归档存储-01',
     type: 'NAS',
+    brand: '戴尔',
     capacity: '100TB',
     used: 35,
     status: 'normal',
-    lastCheck: '2024-03-15 14:30:00'
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 6,
+    name: '分布式存储-01',
+    type: '分布式',
+    brand: '华为',
+    capacity: '50TB',
+    used: 22,
+    status: 'normal',
+    lastCheck: '2024-03-20 09:00:00'
+  },
+  {
+    id: 7,
+    name: '分布式存储-02',
+    type: '分布式',
+    brand: '浪潮',
+    capacity: '50TB',
+    used: 18,
+    status: 'abnormal',
+    lastCheck: '2024-03-20 09:00:00'
   }
 ])
 
@@ -339,6 +488,8 @@ const configForm = reactive({
   name: '',
   ip: '',
   type: '',
+  brand: '',
+  os: '',
   description: ''
 })
 
@@ -358,6 +509,8 @@ const handleAddNetwork = () => {
   configForm.name = ''
   configForm.ip = ''
   configForm.type = 'switch'
+  configForm.brand = ''
+  configForm.os = ''
   configForm.description = ''
   editType.value = 'network'
   editRowId.value = null
@@ -369,6 +522,8 @@ const handleAddServer = () => {
   configForm.name = ''
   configForm.ip = ''
   configForm.type = 'server'
+  configForm.brand = ''
+  configForm.os = ''
   configForm.description = ''
   editType.value = 'server'
   editRowId.value = null
@@ -380,6 +535,7 @@ const handleAddStorage = () => {
   configForm.name = ''
   configForm.ip = ''
   configForm.type = 'storage'
+  configForm.brand = ''
   configForm.description = ''
   editType.value = 'storage'
   editRowId.value = null
@@ -465,6 +621,7 @@ const handleConfigSubmit = () => {
         name: configForm.name,
         ip: configForm.ip,
         type: configForm.type,
+        brand: configForm.brand || '未知',
         status: 'online',
         lastCheck: new Date().toLocaleString()
       })
@@ -475,6 +632,8 @@ const handleConfigSubmit = () => {
         ip: configForm.ip,
         cpu: 0,
         memory: 0,
+        brand: configForm.brand || '未知',
+        os: configForm.os || '未知',
         status: 'running',
         lastCheck: new Date().toLocaleString()
       })
@@ -483,6 +642,7 @@ const handleConfigSubmit = () => {
         id: newId,
         name: configForm.name,
         type: configForm.type,
+        brand: configForm.brand || '未知',
         capacity: '10TB',
         used: 0,
         status: 'normal',

@@ -65,13 +65,13 @@
       >
         <el-table-column type="selection" width="55" />
         <el-table-column prop="username" label="用户名" min-width="120" />
-        <el-table-column prop="realName" label="姓名" min-width="120" />
+        <el-table-column prop="name" label="姓名" min-width="120" />
         <el-table-column prop="phone" label="手机号" min-width="120" />
         <el-table-column prop="email" label="邮箱" min-width="180" />
         <el-table-column prop="role" label="角色" min-width="120">
           <template #default="{ row }">
             <el-tag
-              :type="row.role === 'admin' ? 'danger' : row.role === 'manager' ? 'warning' : 'info'"
+              :type="row.role === '系统管理员' ? 'danger' : row.role === '运维管理员' ? 'warning' : 'info'"
             >
               {{ getRoleName(row.role) }}
             </el-tag>
@@ -80,10 +80,10 @@
         <el-table-column prop="status" label="状态" width="100">
           <template #default="{ row }">
             <el-switch
-              v-model="row.status"
+              :model-value="row.status"
               :active-value="'active'"
               :inactive-value="'inactive'"
-              @change="handleStatusChange(row)"
+              @click="() => handleStatusClick(row)"
             />
           </template>
         </el-table-column>
@@ -128,8 +128,8 @@
         <el-form-item label="用户名" prop="username">
           <el-input v-model="userForm.username" placeholder="请输入用户名" />
         </el-form-item>
-        <el-form-item label="姓名" prop="realName">
-          <el-input v-model="userForm.realName" placeholder="请输入姓名" />
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="userForm.name" placeholder="请输入姓名" />
         </el-form-item>
         <el-form-item label="手机号" prop="phone">
           <el-input v-model="userForm.phone" placeholder="请输入手机号" />
@@ -240,46 +240,180 @@ const searchForm = reactive({
 
 // 角色选项
 const roleOptions = [
-  { label: '管理员', value: 'admin' },
-  { label: '运维人员', value: 'manager' },
-  { label: '普通用户', value: 'user' }
+  { label: '系统管理员', value: '系统管理员' },
+  { label: '运维管理员', value: '运维管理员' },
+  { label: '部门管理员', value: '部门管理员' },
+  { label: '普通用户', value: '普通用户' }
 ]
 
-// 原始用户数据
-interface UserItem {
-  id: number;
-  username: string;
-  realName: string;
-  phone: string;
-  email: string;
-  role: string;
-  status: string;
-  createTime: string;
-}
-const originalUserList = ref<UserItem[]>([
+// 模拟数据
+const mockUsers: User[] = [
   {
     id: 1,
     username: 'admin',
-    realName: '系统管理员',
-    phone: '13800138000',
-    email: 'admin@example.com',
-    role: 'admin',
+    name: '张建国',
+    phone: '13953701245',
+    email: 'zhangjg@yanzhou.gov.cn',
+    department: '信息化办公室',
+    position: '主任',
+    role: '系统管理员',
     status: 'active',
-    createTime: '2024-03-20 10:00:00'
+    lastLogin: '2024-03-20 08:30:00',
+    createTime: '2023-01-01'
   },
   {
     id: 2,
-    username: 'operator',
-    realName: '运维人员',
-    phone: '13800138001',
-    email: 'operator@example.com',
-    role: 'manager',
+    username: 'liwei',
+    name: '李伟',
+    phone: '13853712561',
+    email: 'liwei@yanzhou.gov.cn',
+    department: '信息化办公室',
+    position: '副主任',
+    role: '运维管理员',
     status: 'active',
-    createTime: '2024-03-20 09:00:00'
+    lastLogin: '2024-03-20 09:15:00',
+    createTime: '2023-01-15'
+  },
+  {
+    id: 3,
+    username: 'wangfang',
+    name: '王芳',
+    phone: '1375372389',
+    email: 'wangfang@yanzhou.gov.cn',
+    department: '信息化办公室',
+    position: '科员',
+    role: '普通用户',
+    status: 'inactive',
+    lastLogin: '2024-03-19 16:45:00',
+    createTime: '2023-02-01'
+  },
+  {
+    id: 4,
+    username: 'zhaoming',
+    name: '赵明',
+    phone: '13653734576',
+    email: 'zhaoming@yanzhou.gov.cn',
+    department: '政务服务中心',
+    position: '主任',
+    role: '部门管理员',
+    status: 'active',
+    lastLogin: '2024-03-20 10:20:00',
+    createTime: '2023-02-15'
+  },
+  {
+    id: 5,
+    username: 'chenjing',
+    name: '陈静',
+    phone: '13553745652',
+    email: 'chenjing@yanzhou.gov.cn',
+    department: '政务服务中心',
+    position: '科员',
+    role: '普通用户',
+    status: 'inactive',
+    lastLogin: '2024-03-19 14:30:00',
+    createTime: '2023-03-01'
+  },
+  {
+    id: 6,
+    username: 'liuhong',
+    name: '刘红',
+    phone: '13453756984',
+    email: 'liuhong@yanzhou.gov.cn',
+    department: '经济发展局',
+    position: '主任',
+    role: '部门管理员',
+    status: 'active',
+    lastLogin: '2024-03-20 11:15:00',
+    createTime: '2023-03-15'
+  },
+  {
+    id: 7,
+    username: 'yangwei',
+    name: '杨伟',
+    phone: '13353767690',
+    email: 'yangwei@yanzhou.gov.cn',
+    department: '经济发展局',
+    position: '科员',
+    role: '普通用户',
+    status: 'active',
+    lastLogin: '2024-03-19 15:45:00',
+    createTime: '2023-04-01'
+  },
+  {
+    id: 8,
+    username: 'zhangli',
+    name: '张力',
+    phone: '13253778901',
+    email: 'zhangli@yanzhou.gov.cn',
+    department: '社会事务局',
+    position: '主任',
+    role: '部门管理员',
+    status: 'inactive',
+    lastLogin: '2024-03-20 13:20:00',
+    createTime: '2023-04-15'
+  },
+  {
+    id: 9,
+    username: 'wanghua',
+    name: '王华',
+    phone: '13153789012',
+    email: 'wanghua@yanzhou.gov.cn',
+    department: '社会事务局',
+    position: '科员',
+    role: '普通用户',
+    status: 'active',
+    lastLogin: '2024-03-19 17:30:00',
+    createTime: '2023-05-01'
+  },
+  {
+    id: 10,
+    username: 'lixia',
+    name: '李霞',
+    phone: '13053790123',
+    email: 'lixia@yanzhou.gov.cn',
+    department: '信息化办公室',
+    position: '科员',
+    role: '普通用户',
+    status: 'inactive',
+    lastLogin: '2024-03-20 14:45:00',
+    createTime: '2023-05-15'
   }
-])
+]
+
+// 模拟角色数据
+const mockRoles: Role[] = [
+  {
+    id: 1,
+    name: '系统管理员',
+    description: '系统最高权限管理员',
+    permissions: ['all'],
+    createTime: '2023-01-01'
+  },
+  {
+    id: 2,
+    name: '运维管理员',
+    description: '负责系统运维和监控',
+    permissions: ['monitor', 'device', 'resource'],
+    createTime: '2023-01-01'
+  },
+  {
+    id: 3,
+    name: '部门管理员',
+    description: '部门级管理员',
+    permissions: ['user', 'data'],
+    createTime: '2023-01-01'
+  },
+  {
+    id: 4,
+    name: '普通用户',
+    description: '基础功能使用权限',
+    permissions: ['view'],
+    createTime: '2023-01-01'
+  }
+]
+
 // 展示用用户数据
-const userList = ref<UserItem[]>([])
+const userList = ref<User[]>([])
 
 // 分页
 const currentPage = ref(1)
@@ -290,14 +424,76 @@ const total = ref(100)
 const dialogVisible = ref(false)
 const dialogType = ref<'add' | 'edit'>('add')
 const userFormRef = ref<FormInstance>()
-const userForm = reactive({
+
+// 用户表单类型
+interface UserForm {
+  id?: number
+  username: string
+  name: string
+  phone: string
+  email: string
+  department: string
+  position: string
+  role: string
+  status: string
+  lastLogin: string
+  createTime: string
+}
+
+// 角色表单类型
+interface RoleForm {
+  id?: number
+  name: string
+  description: string
+  permissions: string[]
+  createTime: string
+}
+
+// 用户类型
+type User = {
+  id: number
+  username: string
+  name: string
+  phone: string
+  email: string
+  department: string
+  position: string
+  role: string
+  status: string
+  lastLogin: string
+  createTime: string
+}
+
+// 角色类型
+type Role = {
+  id: number
+  name: string
+  description: string
+  permissions: string[]
+  createTime: string
+}
+
+// 用户表单
+const userForm = reactive<UserForm>({
   id: 0,
   username: '',
-  realName: '',
+  name: '',
   phone: '',
   email: '',
+  department: '',
+  position: '',
   role: '',
-  status: 'active',
+  status: '正常',
+  lastLogin: '',
+  createTime: ''
+})
+
+// 角色表单
+const roleForm = reactive<RoleForm>({
+  id: 0,
+  name: '',
+  description: '',
+  permissions: [],
   createTime: ''
 })
 
@@ -307,7 +503,7 @@ const userRules = {
     { required: true, message: '请输入用户名', trigger: 'blur' },
     { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
   ],
-  realName: [
+  name: [
     { required: true, message: '请输入姓名', trigger: 'blur' }
   ],
   phone: [
@@ -326,22 +522,7 @@ const userRules = {
 // 角色管理
 const roleDialogVisible = ref(false)
 const activeRoleTab = ref('list')
-const roleList = ref([
-  {
-    id: 1,
-    name: '管理员',
-    code: 'admin',
-    description: '系统管理员，拥有所有权限',
-    createTime: '2024-03-20 10:00:00'
-  },
-  {
-    id: 2,
-    name: '运维人员',
-    code: 'manager',
-    description: '运维人员，负责系统维护',
-    createTime: '2024-03-20 09:00:00'
-  }
-])
+const roleList = ref<Role[]>([])
 
 // 权限树
 const permissionTreeRef = ref()
@@ -375,7 +556,7 @@ const getRoleName = (role: string) => {
 
 // 搜索
 const handleSearch = () => {
-  let filtered = [...originalUserList.value]
+  let filtered = [...mockUsers]
   if (searchForm.keyword) {
     filtered = filtered.filter(u =>
       u.username.includes(searchForm.keyword) ||
@@ -405,18 +586,23 @@ const resetSearch = () => {
 const handleAdd = () => {
   dialogType.value = 'add'
   dialogVisible.value = true
-  userForm.id = 0
-  userForm.username = ''
-  userForm.realName = ''
-  userForm.phone = ''
-  userForm.email = ''
-  userForm.role = ''
-  userForm.status = 'active'
-  userForm.createTime = ''
+  Object.assign(userForm, {
+    id: Date.now(),
+    username: '',
+    name: '',
+    phone: '',
+    email: '',
+    department: '',
+    position: '',
+    role: '',
+    status: '正常',
+    lastLogin: '',
+    createTime: ''
+  })
 }
 
 // 编辑用户
-const handleEdit = (row: any) => {
+const handleEdit = (row: User) => {
   dialogType.value = 'edit'
   dialogVisible.value = true
   Object.assign(userForm, row)
@@ -434,18 +620,19 @@ const handleDelete = (row: any) => {
     }
   ).then(() => {
     // 实现删除逻辑
-    const idx = originalUserList.value.findIndex(u => u.id === row.id)
+    const idx = mockUsers.findIndex(u => u.id === row.id)
     if (idx !== -1) {
-      originalUserList.value.splice(idx, 1)
+      mockUsers.splice(idx, 1)
       handleSearch()
       ElMessage.success('删除成功')
-      total.value = originalUserList.value.length
+      total.value = mockUsers.length
     }
   })
 }
 
 // 修改用户状态
-const handleStatusChange = (row: any) => {
+const handleStatusClick = (row: User) => {
+  row.status = row.status === 'active' ? 'inactive' : 'active'
   const status = row.status === 'active' ? '启用' : '禁用'
   ElMessage.success(`已${status}用户：${row.username}`)
 }
@@ -457,15 +644,15 @@ const handleSubmit = async () => {
     if (valid) {
       if (dialogType.value === 'add') {
         // 新增
-        const newUser = { ...userForm, id: Date.now(), createTime: new Date().toLocaleString() }
-        originalUserList.value.unshift(newUser)
+        const newUser: User = { ...userForm, id: Date.now(), createTime: new Date().toLocaleString(), lastLogin: '' }
+        mockUsers.unshift(newUser)
         handleSearch()
         ElMessage.success('新增成功')
       } else {
         // 编辑
-        const idx = originalUserList.value.findIndex(u => u.id === userForm.id)
+        const idx = mockUsers.findIndex(u => u.id === userForm.id)
         if (idx !== -1) {
-          originalUserList.value[idx] = { ...userForm, id: userForm.id, createTime: userForm.createTime }
+          mockUsers[idx] = { ...userForm, id: userForm.id as number, createTime: userForm.createTime, lastLogin: userForm.lastLogin }
           handleSearch()
           ElMessage.success('修改成功')
         }
@@ -498,11 +685,11 @@ const handleAddRole = () => {
     inputPattern: /^.{2,20}$/,
     inputErrorMessage: '角色名称长度为2-20个字符'
   }).then(({ value }) => {
-    const newRole = {
+    const newRole: Role = {
       id: Date.now(),
       name: value,
-      code: value.toLowerCase(),
       description: '',
+      permissions: [],
       createTime: new Date().toLocaleString()
     }
     roleList.value.push(newRole)
@@ -557,10 +744,10 @@ const currentUserPermissions = ref<number[]>([])
 const currentUserId = ref<number | null>(null)
 const userPermissionTreeRef = ref()
 
-const handlePermission = (row: UserItem) => {
+const handlePermission = (row: typeof mockUsers[0]) => {
   currentUserId.value = row.id
   // 这里可以根据 row.id 获取该用户已有权限，暂时用默认模拟
-  currentUserPermissions.value = [11, 21]
+  userPermissionTreeRef.value?.setCheckedKeys(['1', '1-1', '1-2'])
   permissionDialogVisible.value = true
 }
 

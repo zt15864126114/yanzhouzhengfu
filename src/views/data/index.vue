@@ -34,6 +34,11 @@
         
         <el-tab-pane label="数据传输" name="transfer">
           <div class="data-section">
+            <div class="table-header">
+              <el-button type="primary" @click="showAddTransferDialog = true">
+                添加数据传输任务
+              </el-button>
+            </div>
             <el-table :data="transferData" style="width: 100%">
               <el-table-column prop="id" label="ID" width="80" />
               <el-table-column prop="name" label="任务名称" />
@@ -66,12 +71,6 @@
                 </template>
               </el-table-column>
             </el-table>
-            
-            <div class="action-buttons">
-              <el-button type="primary" @click="showAddTransferDialog = true">
-                添加数据传输任务
-              </el-button>
-            </div>
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -130,94 +129,24 @@ const activeTab = ref('storage')
 
 // 存储数据
 const storageData = ref<StorageItem[]>([
-  {
-    name: '系统存储',
-    used: '2.3TB',
-    total: '5TB',
-    usagePercentage: 46
-  },
-  {
-    name: '用户存储',
-    used: '3.7TB',
-    total: '8TB',
-    usagePercentage: 46
-  },
-  {
-    name: '应用存储',
-    used: '8.1TB',
-    total: '10TB',
-    usagePercentage: 81
-  },
-  {
-    name: '备份存储',
-    used: '12.5TB',
-    total: '20TB',
-    usagePercentage: 63
-  },
-  {
-    name: '归档存储',
-    used: '35.8TB',
-    total: '50TB',
-    usagePercentage: 72
-  }
+  { name: '政务云主存储', used: '28.3TB', total: '50TB', usagePercentage: 57 },
+  { name: '政务云备份存储', used: '12.5TB', total: '20TB', usagePercentage: 63 },
+  { name: '业务数据库存储', used: '8.1TB', total: '10TB', usagePercentage: 81 },
+  { name: '视频监控存储', used: '6.2TB', total: '8TB', usagePercentage: 78 },
+  { name: '归档存储', used: '35.8TB', total: '50TB', usagePercentage: 72 },
+  { name: '政务门户存储', used: '1.2TB', total: '5TB', usagePercentage: 24 },
+  { name: 'OA系统存储', used: '2.7TB', total: '5TB', usagePercentage: 54 }
 ])
 
 // 数据传输任务列表
 const transferData = ref<TransferItem[]>([
-  {
-    id: 1,
-    name: '系统配置备份',
-    source: '/data/system',
-    destination: '/backup/system',
-    size: '500GB',
-    status: '已完成',
-    progress: 100
-  },
-  {
-    id: 2,
-    name: '用户数据镜像',
-    source: '/data/users',
-    destination: '/data/mirror',
-    size: '320GB',
-    status: '进行中',
-    progress: 68
-  },
-  {
-    id: 3,
-    name: '日志归档',
-    source: '/logs/current',
-    destination: '/archive/logs',
-    size: '150GB',
-    status: '暂停中',
-    progress: 0
-  },
-  {
-    id: 4,
-    name: '数据库备份',
-    source: '/data/database',
-    destination: '/backup/database',
-    size: '1.2TB',
-    status: '进行中',
-    progress: 45
-  },
-  {
-    id: 5,
-    name: '应用数据同步',
-    source: '/data/apps',
-    destination: '/data/apps-backup',
-    size: '750GB',
-    status: '已完成',
-    progress: 100
-  },
-  {
-    id: 6,
-    name: '配置文件迁移',
-    source: '/config/old',
-    destination: '/config/new',
-    size: '50GB',
-    status: '进行中',
-    progress: 82
-  }
+  { id: 1, name: '政务数据同步', source: '/gov/data', destination: '/cloud/data', size: '1.2TB', status: '进行中', progress: 45 },
+  { id: 2, name: '业务数据库备份', source: '/db/prod', destination: '/backup/db', size: '800GB', status: '已完成', progress: 100 },
+  { id: 3, name: '视频监控归档', source: '/video/live', destination: '/archive/video', size: '2.5TB', status: '暂停中', progress: 0 },
+  { id: 4, name: '用户数据迁移', source: '/user/old', destination: '/user/new', size: '500GB', status: '进行中', progress: 68 },
+  { id: 5, name: '日志文件同步', source: '/logs/current', destination: '/logs/backup', size: '150GB', status: '已完成', progress: 100 },
+  { id: 6, name: 'OA系统数据备份', source: '/oa/data', destination: '/backup/oa', size: '300GB', status: '进行中', progress: 33 },
+  { id: 7, name: '门户网站镜像', source: '/portal', destination: '/mirror/portal', size: '200GB', status: '暂停中', progress: 0 }
 ])
 
 // 进度条颜色计算
@@ -364,8 +293,9 @@ const handleDelete = (row: TransferItem): void => {
   margin-top: 15px;
 }
 
-.action-buttons {
-  margin-top: 20px;
-  text-align: right;
+.table-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
 }
 </style> 
