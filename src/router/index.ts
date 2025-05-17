@@ -57,6 +57,48 @@ const router = createRouter({
           name: 'Asset',
           component: () => import('@/views/asset/index.vue'),
           meta: { title: '资产台账', icon: 'Suitcase' }
+        },
+        {
+          path: 'ticket',
+          name: 'Ticket',
+          component: () => import('@/views/ticket/index.vue'),
+          meta: { title: '运维工单', icon: 'Tickets' }
+        },
+        {
+          path: 'health',
+          name: 'Health',
+          component: () => import('@/views/health/index.vue'),
+          meta: { title: '服务健康', icon: 'CircleCheck' }
+        },
+        {
+          path: 'system',
+          name: 'System',
+          component: () => import('@/views/system/index.vue'),
+          meta: { title: '业务系统', icon: 'Cpu' }
+        },
+        {
+          path: 'security',
+          name: 'Security',
+          component: () => import('@/views/security/index.vue'),
+          meta: { title: '安全事件', icon: 'Lock' }
+        },
+        {
+          path: 'energy',
+          name: 'Energy',
+          component: () => import('@/views/energy/index.vue'),
+          meta: { title: '能耗监控', icon: 'PieChart' }
+        },
+        {
+          path: 'backup',
+          name: 'Backup',
+          component: () => import('@/views/backup/index.vue'),
+          meta: { title: '备份任务', icon: 'DocumentCopy' }
+        },
+        {
+          path: 'log',
+          name: 'Log',
+          component: () => import('@/views/log/index.vue'),
+          meta: { title: '操作日志', icon: 'Document' }
         }
       ]
     }

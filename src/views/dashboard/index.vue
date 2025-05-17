@@ -108,7 +108,7 @@
   const overviewData = ref([
     {
       title: '在线设备',
-      value: '1,234',
+      value: '50',
       icon: 'Monitor',
       color: '#409EFF',
       trend: 'up',
