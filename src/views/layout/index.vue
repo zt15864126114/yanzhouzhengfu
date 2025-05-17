@@ -2,7 +2,7 @@
   <el-container class="layout-container">
     <el-aside :width="isCollapse ? '64px' : '220px'" class="aside">
       <div class="logo">
-        <img src="@/assets/logo.png" alt="logo" />
+<!--        <img src="@/assets/logo.png" alt="logo" />-->
         <span v-show="!isCollapse">超融合平台</span>
       </div>
       <el-scrollbar>
