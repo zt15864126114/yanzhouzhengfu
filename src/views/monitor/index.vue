@@ -240,31 +240,31 @@ const systemStatus = reactive({
 // 告警列表
 const loading = ref(false)
 const originalAlertList = ref([
-  { id: 1, time: '2024-03-20 10:30:00', level: 'critical', content: '服务器A CPU使用率超过90%', source: '服务器A' },
-  { id: 2, time: '2024-03-20 09:15:00', level: 'warning', content: '存储阵列B空间使用率超过80%', source: '存储阵列B' },
-  { id: 3, time: '2024-03-19 16:45:00', level: 'info', content: '系统有新补丁可用', source: '系统' },
-  { id: 4, time: '2024-03-19 15:20:00', level: 'critical', content: '数据库服务器连接超时', source: '数据库服务器' },
-  { id: 5, time: '2024-03-19 14:10:00', level: 'warning', content: '网络带宽利用率高于70%', source: '核心交换机' },
-  { id: 6, time: '2024-03-18 18:30:00', level: 'info', content: '备份任务完成', source: '备份系统' },
-  { id: 7, time: '2024-03-18 17:00:00', level: 'critical', content: '防火墙检测到异常流量', source: '防火墙' },
-  { id: 8, time: '2024-03-18 16:00:00', level: 'warning', content: '应用服务器内存使用率高', source: '应用服务器' },
-  { id: 9, time: '2024-03-18 15:00:00', level: 'info', content: '系统安全扫描完成', source: '安全模块' },
-  { id: 10, time: '2024-03-18 14:00:00', level: 'critical', content: '分布式存储节点掉线', source: '分布式存储' }
+  { id: 1, time: '2025-03-20 10:30:00', level: 'critical', content: '服务器A CPU使用率超过90%', source: '服务器A' },
+  { id: 2, time: '2025-03-20 09:15:00', level: 'warning', content: '存储阵列B空间使用率超过80%', source: '存储阵列B' },
+  { id: 3, time: '2025-03-19 16:45:00', level: 'info', content: '系统有新补丁可用', source: '系统' },
+  { id: 4, time: '2025-03-19 15:20:00', level: 'critical', content: '数据库服务器连接超时', source: '数据库服务器' },
+  { id: 5, time: '2025-03-19 14:10:00', level: 'warning', content: '网络带宽利用率高于70%', source: '核心交换机' },
+  { id: 6, time: '2025-03-18 18:30:00', level: 'info', content: '备份任务完成', source: '备份系统' },
+  { id: 7, time: '2025-03-18 17:00:00', level: 'critical', content: '防火墙检测到异常流量', source: '防火墙' },
+  { id: 8, time: '2025-03-18 16:00:00', level: 'warning', content: '应用服务器内存使用率高', source: '应用服务器' },
+  { id: 9, time: '2025-03-18 15:00:00', level: 'info', content: '系统安全扫描完成', source: '安全模块' },
+  { id: 10, time: '2025-03-18 14:00:00', level: 'critical', content: '分布式存储节点掉线', source: '分布式存储' }
 ])
 const alertList = ref([...originalAlertList.value])
 
 // 日志列表
 const logList = ref([
-  { id: 1, time: '2024-03-20 10:00:00', level: 'info', module: '系统', content: '系统启动成功' },
-  { id: 2, time: '2024-03-20 09:55:00', level: 'warning', module: 'CPU', content: 'CPU使用率超过80%' },
-  { id: 3, time: '2024-03-20 09:50:00', level: 'error', module: '数据库', content: '数据库连接超时' },
-  { id: 4, time: '2024-03-20 09:45:00', level: 'info', module: '网络', content: '网络设备状态检查完成' },
-  { id: 5, time: '2024-03-20 09:40:00', level: 'warning', module: '存储', content: '存储空间使用率超过70%' },
-  { id: 6, time: '2024-03-20 09:35:00', level: 'info', module: '安全', content: '安全扫描完成' },
-  { id: 7, time: '2024-03-20 09:30:00', level: 'error', module: '应用', content: '应用服务响应超时' },
-  { id: 8, time: '2024-03-20 09:25:00', level: 'info', module: '备份', content: '数据备份任务完成' },
-  { id: 9, time: '2024-03-20 09:20:00', level: 'warning', module: '网络', content: '网络丢包率升高' },
-  { id: 10, time: '2024-03-20 09:15:00', level: 'error', module: '防火墙', content: '检测到异常访问尝试' }
+  { id: 1, time: '2025-03-20 10:00:00', level: 'info', module: '系统', content: '系统启动成功' },
+  { id: 2, time: '2025-03-20 09:55:00', level: 'warning', module: 'CPU', content: 'CPU使用率超过80%' },
+  { id: 3, time: '2025-03-20 09:50:00', level: 'error', module: '数据库', content: '数据库连接超时' },
+  { id: 4, time: '2025-03-20 09:45:00', level: 'info', module: '网络', content: '网络设备状态检查完成' },
+  { id: 5, time: '2025-03-20 09:40:00', level: 'warning', module: '存储', content: '存储空间使用率超过70%' },
+  { id: 6, time: '2025-03-20 09:35:00', level: 'info', module: '安全', content: '安全扫描完成' },
+  { id: 7, time: '2025-03-20 09:30:00', level: 'error', module: '应用', content: '应用服务响应超时' },
+  { id: 8, time: '2025-03-20 09:25:00', level: 'info', module: '备份', content: '数据备份任务完成' },
+  { id: 9, time: '2025-03-20 09:20:00', level: 'warning', module: '网络', content: '网络丢包率升高' },
+  { id: 10, time: '2025-03-20 09:15:00', level: 'error', module: '防火墙', content: '检测到异常访问尝试' }
 ])
 
 // 告警对话框

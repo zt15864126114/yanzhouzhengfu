@@ -1,5 +1,9 @@
 <template>
     <div class="dashboard-container">
+      <!-- 标题 -->
+      <div class="dashboard-title">
+        <h1>济宁市兖州区兴隆庄街道办事处超融合平台</h1>
+      </div>
       <!-- 数据概览卡片 -->
       <el-row :gutter="20" class="data-overview">
         <el-col :span="6" v-for="(item, index) in overviewData" :key="index">
@@ -152,17 +156,17 @@
   // 系统告警数据
   const alerts = ref([
     {
-      time: '2024-03-20 10:30:00',
+      time: '2025-03-20 10:30:00',
       level: '严重',
       content: '服务器CPU使用率超过90%'
     },
     {
-      time: '2024-03-20 09:15:00',
+      time: '2025-03-20 09:15:00',
       level: '警告',
       content: '存储空间使用率超过80%'
     },
     {
-      time: '2024-03-19 16:45:00',
+      time: '2025-03-19 16:45:00',
       level: '提示',
       content: '系统更新可用'
     }
@@ -172,17 +176,17 @@
   const activities = ref([
     {
       content: '系统管理员登录系统',
-      timestamp: '2024-03-20 10:00:00',
+      timestamp: '2025-03-20 10:00:00',
       type: 'primary'
     },
     {
       content: '新增用户：张三',
-      timestamp: '2024-03-20 09:30:00',
+      timestamp: '2025-03-20 09:30:00',
       type: 'success'
     },
     {
       content: '更新系统配置',
-      timestamp: '2024-03-20 09:00:00',
+      timestamp: '2025-03-20 09:00:00',
       type: 'info'
     }
   ]);
@@ -308,6 +312,18 @@
   <style scoped>
   .dashboard-container {
     padding: 20px;
+  }
+  
+  .dashboard-title {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .dashboard-title h1 {
+    font-size: 24px;
+    color: #303133;
+    font-weight: 600;
+    margin: 0;
   }
   
   .data-overview {
