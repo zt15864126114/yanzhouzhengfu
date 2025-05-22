@@ -15,7 +15,7 @@
 
           <el-table :data="networkList" style="width: 100%" v-loading="loading">
             <el-table-column prop="name" label="设备名称" />
-            <el-table-column prop="brand" label="品牌" />
+            <!-- <el-table-column prop="brand" label="品牌" /> -->
             <el-table-column prop="ip" label="IP地址" />
             <el-table-column prop="type" label="设备类型" />
             <el-table-column prop="status" label="状态">
@@ -208,7 +208,7 @@ const networkList = ref([
     type: 'switch',
     brand: '华为',
     status: 'online',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 2,
@@ -217,7 +217,7 @@ const networkList = ref([
     type: 'switch',
     brand: '华三',
     status: 'online',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 3,
@@ -226,7 +226,7 @@ const networkList = ref([
     type: 'router',
     brand: '锐捷',
     status: 'online',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 4,
@@ -235,7 +235,7 @@ const networkList = ref([
     type: 'firewall',
     brand: '深信服',
     status: 'online',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 5,
@@ -244,7 +244,7 @@ const networkList = ref([
     type: 'loadbalancer',
     brand: 'F5',
     status: 'maintenance',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 6,
@@ -253,7 +253,7 @@ const networkList = ref([
     type: 'switch',
     brand: '华为',
     status: 'online',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 7,
@@ -262,7 +262,7 @@ const networkList = ref([
     type: 'switch',
     brand: '华三',
     status: 'offline',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 8,
@@ -271,7 +271,7 @@ const networkList = ref([
     type: 'controller',
     brand: '锐捷',
     status: 'online',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 9,
@@ -280,7 +280,7 @@ const networkList = ref([
     type: 'router',
     brand: '华为',
     status: 'online',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 10,
@@ -289,7 +289,7 @@ const networkList = ref([
     type: 'firewall',
     brand: '深信服',
     status: 'offline',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   }
 ])
 
@@ -304,7 +304,7 @@ const serverList = ref([
     brand: '浪潮',
     os: 'Windows Server 2019',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 2,
@@ -315,7 +315,7 @@ const serverList = ref([
     brand: '华为',
     os: 'CentOS 7',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 3,
@@ -326,7 +326,7 @@ const serverList = ref([
     brand: '戴尔',
     os: 'Windows Server 2016',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 4,
@@ -337,7 +337,7 @@ const serverList = ref([
     brand: '联想',
     os: 'Ubuntu 20.04',
     status: 'stopped',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 5,
@@ -348,7 +348,7 @@ const serverList = ref([
     brand: '浪潮',
     os: 'CentOS 7',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 6,
@@ -359,7 +359,7 @@ const serverList = ref([
     brand: '华为',
     os: 'VMware ESXi',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 7,
@@ -370,7 +370,7 @@ const serverList = ref([
     brand: '戴尔',
     os: 'VMware ESXi',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 8,
@@ -381,7 +381,7 @@ const serverList = ref([
     brand: '联想',
     os: 'Windows Server 2012',
     status: 'stopped',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 9,
@@ -392,7 +392,7 @@ const serverList = ref([
     brand: '浪潮',
     os: 'CentOS 7',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 10,
@@ -403,7 +403,7 @@ const serverList = ref([
     brand: '华为',
     os: 'Windows Server 2019',
     status: 'running',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   }
 ])
 
@@ -417,7 +417,7 @@ const storageList = ref([
     capacity: '50TB',
     used: 65,
     status: 'normal',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 2,
@@ -427,7 +427,7 @@ const storageList = ref([
     capacity: '50TB',
     used: 58,
     status: 'normal',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 3,
@@ -437,7 +437,7 @@ const storageList = ref([
     capacity: '30TB',
     used: 45,
     status: 'normal',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 4,
@@ -447,7 +447,7 @@ const storageList = ref([
     capacity: '30TB',
     used: 42,
     status: 'abnormal',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 5,
@@ -457,7 +457,7 @@ const storageList = ref([
     capacity: '100TB',
     used: 35,
     status: 'normal',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 6,
@@ -467,7 +467,7 @@ const storageList = ref([
     capacity: '50TB',
     used: 22,
     status: 'normal',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   },
   {
     id: 7,
@@ -477,7 +477,7 @@ const storageList = ref([
     capacity: '50TB',
     used: 18,
     status: 'abnormal',
-    lastCheck: '2025-03-20 09:00:00'
+    lastCheck: '2025-05-20 09:00:00'
   }
 ])
 

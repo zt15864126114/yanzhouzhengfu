@@ -2,7 +2,7 @@
     <div class="dashboard-container">
       <!-- 标题 -->
       <div class="dashboard-title">
-        <h1>济宁市兖州区人民政府办公司超融合平台</h1>
+        <h1> 济宁市兖州区人民政府云定制化超融合平台</h1>
       </div>
       <!-- 数据概览卡片 -->
       <el-row :gutter="20" class="data-overview">
@@ -156,17 +156,17 @@
   // 系统告警数据
   const alerts = ref([
     {
-      time: '2025-03-20 10:30:00',
+      time: '2025-05-20 10:30:00',
       level: '严重',
       content: '服务器CPU使用率超过90%'
     },
     {
-      time: '2025-03-20 09:15:00',
+      time: '2025-05-20 09:15:00',
       level: '警告',
       content: '存储空间使用率超过80%'
     },
     {
-      time: '2025-03-19 16:45:00',
+      time: '2025-05-19 16:45:00',
       level: '提示',
       content: '系统更新可用'
     }
@@ -176,17 +176,17 @@
   const activities = ref([
     {
       content: '系统管理员登录系统',
-      timestamp: '2025-03-20 10:00:00',
+      timestamp: '2025-05-20 10:00:00',
       type: 'primary'
     },
     {
       content: '新增用户：李明',
-      timestamp: '2025-03-20 09:30:00',
+      timestamp: '2025-05-20 09:30:00',
       type: 'success'
     },
     {
       content: '更新系统配置',
-      timestamp: '2025-03-20 09:00:00',
+      timestamp: '2025-05-20 09:00:00',
       type: 'info'
     }
   ]);

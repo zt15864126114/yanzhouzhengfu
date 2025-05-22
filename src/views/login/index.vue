@@ -5,7 +5,7 @@
       <template #header>
         <div class="card-header">
 <!--          <img src="@/assets/logo.png" alt="logo" class="logo" />-->
-          <h2>济宁市兖州区人民政府办公司超融合平台</h2>
+          <h2> 济宁市兖州区人民政府云定制化超融合平台</h2>
           <p class="subtitle">智慧城市 · 数字政务</p>
         </div>
       </template>
