@@ -5,7 +5,7 @@
       <template #header>
         <div class="card-header">
 <!--          <img src="@/assets/logo.png" alt="logo" class="logo" />-->
-          <h2>超融合平台</h2>
+          <h2>济宁市兖州区人民政府办公司超融合平台</h2>
           <p class="subtitle">智慧城市 · 数字政务</p>
         </div>
       </template>
@@ -250,9 +250,10 @@ const handleRegister = async () => {
 
 .card-header h2 {
   margin: 0;
-  font-size: 28px;
+  font-size: 20px;
   color: #1890ff;
   font-weight: 600;
+  line-height: 1.4;
 }
 
 .subtitle {

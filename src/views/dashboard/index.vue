@@ -2,7 +2,7 @@
     <div class="dashboard-container">
       <!-- 标题 -->
       <div class="dashboard-title">
-        <h1>济宁市兖州区兴隆庄街道办事处超融合平台</h1>
+        <h1>济宁市兖州区人民政府办公司超融合平台</h1>
       </div>
       <!-- 数据概览卡片 -->
       <el-row :gutter="20" class="data-overview">
@@ -180,7 +180,7 @@
       type: 'primary'
     },
     {
-      content: '新增用户：张三',
+      content: '新增用户：李明',
       timestamp: '2025-03-20 09:30:00',
       type: 'success'
     },
