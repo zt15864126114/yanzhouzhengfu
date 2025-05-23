@@ -51,7 +51,7 @@
 
           <el-table :data="serverList" style="width: 100%" v-loading="loading">
             <el-table-column prop="name" label="服务器名称" />
-            <el-table-column prop="brand" label="品牌" />
+<!--            <el-table-column prop="brand" label="品牌" />-->
             <el-table-column prop="ip" label="IP地址" />
             <el-table-column prop="cpu" label="CPU使用率">
               <template #default="{ row }">
@@ -96,7 +96,7 @@
 
           <el-table :data="storageList" style="width: 100%" v-loading="loading">
             <el-table-column prop="name" label="存储名称" />
-            <el-table-column prop="brand" label="品牌" />
+<!--            <el-table-column prop="brand" label="品牌" />-->
             <el-table-column prop="type" label="存储类型" />
             <el-table-column prop="capacity" label="总容量" />
             <el-table-column prop="used" label="已用容量">
