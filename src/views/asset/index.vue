@@ -28,7 +28,7 @@
         <el-table-column prop="type" label="类型" min-width="100" />
         <el-table-column prop="purchaseDate" label="采购日期" min-width="120" />
         <el-table-column prop="warranty" label="保修到期" min-width="120" />
-        <el-table-column prop="vendor" label="供应商" min-width="120" />
+<!--        <el-table-column prop="vendor" label="供应商" min-width="120" />-->
         <el-table-column prop="price" label="价格" min-width="100" />
         <el-table-column prop="status" label="状态" min-width="100">
           <template #default="{ row }">
@@ -79,9 +79,9 @@
         <el-form-item label="保修到期" prop="warranty">
           <el-date-picker v-model="assetForm.warranty" type="date" placeholder="选择日期" style="width: 100%;" />
         </el-form-item>
-        <el-form-item label="供应商" prop="vendor">
-          <el-input v-model="assetForm.vendor" placeholder="请输入供应商" />
-        </el-form-item>
+<!--        <el-form-item label="供应商" prop="vendor">-->
+<!--          <el-input v-model="assetForm.vendor" placeholder="请输入供应商" />-->
+<!--        </el-form-item>-->
         <el-form-item label="价格" prop="price">
           <el-input v-model="assetForm.price" placeholder="请输入价格" />
         </el-form-item>
@@ -124,11 +124,11 @@ const originalAssetList = ref<AssetItem[]>([
   { id: 3, assetNo: 'ZC2024003', name: '存储阵列-01', type: '存储设备', purchaseDate: '2025-05-20', warranty: '2026-03-20', vendor: '华为', price: '¥60000', status: '闲置' },
   { id: 4, assetNo: 'ZC2024004', name: '防火墙-01', type: '安全设备', purchaseDate: '2025-05-05', warranty: '2026-04-05', vendor: '深信服', price: '¥25000', status: '在用' },
   { id: 5, assetNo: 'ZC2024005', name: '核心路由器-01', type: '网络设备', purchaseDate: '2025-05-12', warranty: '2026-05-12', vendor: '锐捷', price: '¥38000', status: '在用' },
-  { id: 6, assetNo: 'ZC2024006', name: '应用服务器-02', type: '服务器', purchaseDate: '2025-06-18', warranty: '2026-06-18', vendor: '华为', price: '¥41000', status: '报废' },
-  { id: 7, assetNo: 'ZC2024007', name: '备份存储-01', type: '存储设备', purchaseDate: '2025-07-22', warranty: '2026-07-22', vendor: '联想', price: '¥32000', status: '在用' },
-  { id: 8, assetNo: 'ZC2024008', name: '负载均衡器-01', type: '网络设备', purchaseDate: '2025-08-30', warranty: '2026-08-30', vendor: 'F5', price: '¥28000', status: '闲置' },
-  { id: 9, assetNo: 'ZC2024009', name: '安全网关-01', type: '安全设备', purchaseDate: '2025-09-10', warranty: '2026-09-10', vendor: '深信服', price: '¥23000', status: '在用' },
-  { id: 10, assetNo: 'ZC2024010', name: '分布式存储-01', type: '存储设备', purchaseDate: '2025-10-15', warranty: '2026-10-15', vendor: '华为', price: '¥65000', status: '在用' }
+  { id: 6, assetNo: 'ZC2024006', name: '应用服务器-02', type: '服务器', purchaseDate: '2025-05-18', warranty: '2026-06-18', vendor: '华为', price: '¥41000', status: '报废' },
+  { id: 7, assetNo: 'ZC2024007', name: '备份存储-01', type: '存储设备', purchaseDate: '2025-05-22', warranty: '2026-07-22', vendor: '联想', price: '¥32000', status: '在用' },
+  { id: 8, assetNo: 'ZC2024008', name: '负载均衡器-01', type: '网络设备', purchaseDate: '2025-05-30', warranty: '2026-08-30', vendor: 'F5', price: '¥28000', status: '闲置' },
+  { id: 9, assetNo: 'ZC2024009', name: '安全网关-01', type: '安全设备', purchaseDate: '2025-05-10', warranty: '2026-09-10', vendor: '深信服', price: '¥23000', status: '在用' },
+  { id: 10, assetNo: 'ZC2024010', name: '分布式存储-01', type: '存储设备', purchaseDate: '2025-05-15', warranty: '2026-10-15', vendor: '华为', price: '¥65000', status: '在用' }
 ])
 const assetList = ref<AssetItem[]>([])
 
