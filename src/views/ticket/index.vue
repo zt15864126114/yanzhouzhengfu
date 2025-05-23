@@ -139,14 +139,14 @@ interface TicketItem {
 
 const originalTicketList = ref<TicketItem[]>([
   { id: 1, title: '主机故障报修', type: '故障报修', handler: '李明', status: '处理中', progress: 2, createTime: '2025-05-01 09:00', logs: [ { time: '2025-05-01 08:00', content: '工单已派单', type: 'info' }, { time: '2025-05-01 09:00', content: '正在处理', type: 'warning' } ] },
-  { id: 2, title: '网络巡检', type: '巡检', handler: '王芳', status: '已完成', progress: 3, createTime: '2025-05-31 10:00', logs: [ { time: '2025-05-31 09:00', content: '工单已派单', type: 'info' }, { time: '2025-05-31 10:00', content: '巡检完成', type: 'success' } ] },
-  { id: 3, title: '系统升级', type: '升级', handler: '赵强', status: '待处理', progress: 1, createTime: '2025-05-30 14:00', logs: [ { time: '2025-05-30 14:00', content: '工单已派单', type: 'info' } ] },
-  { id: 4, title: '打印机故障', type: '故障报修', handler: '孙丽', status: '处理中', progress: 2, createTime: '2025-05-29 11:00', logs: [ { time: '2025-05-29 10:00', content: '工单已派单', type: 'info' }, { time: '2025-05-29 11:00', content: '正在处理', type: 'warning' } ] },
-  { id: 5, title: '服务器巡检', type: '巡检', handler: '周伟', status: '已完成', progress: 3, createTime: '2025-05-28 09:00', logs: [ { time: '2025-05-28 08:00', content: '工单已派单', type: 'info' }, { time: '2025-05-28 09:00', content: '巡检完成', type: 'success' } ] },
-  { id: 6, title: '数据库升级', type: '升级', handler: '马俊', status: '待处理', progress: 1, createTime: '2025-05-27 13:00', logs: [ { time: '2025-05-27 13:00', content: '工单已派单', type: 'info' } ] },
-  { id: 7, title: '交换机故障', type: '故障报修', handler: '许静', status: '处理中', progress: 2, createTime: '2025-05-26 10:00', logs: [ { time: '2025-05-26 09:00', content: '工单已派单', type: 'info' }, { time: '2025-05-26 10:00', content: '正在处理', type: 'warning' } ] },
-  { id: 8, title: '办公区巡检', type: '巡检', handler: '宋倩', status: '已完成', progress: 3, createTime: '2025-05-25 15:00', logs: [ { time: '2025-05-25 14:00', content: '工单已派单', type: 'info' }, { time: '2025-05-25 15:00', content: '巡检完成', type: 'success' } ] },
-  { id: 9, title: '应用系统升级', type: '升级', handler: '魏东', status: '待处理', progress: 1, createTime: '2025-05-24 16:00', logs: [ { time: '2025-05-24 16:00', content: '工单已派单', type: 'info' } ] },
+  { id: 2, title: '网络巡检', type: '巡检', handler: '王芳', status: '已完成', progress: 3, createTime: '2025-05-20 10:00', logs: [ { time: '2025-05-20 09:00', content: '工单已派单', type: 'info' }, { time: '2025-05-20 10:00', content: '巡检完成', type: 'success' } ] },
+  { id: 3, title: '系统升级', type: '升级', handler: '赵强', status: '待处理', progress: 1, createTime: '2025-05-19 14:00', logs: [ { time: '2025-05-19 14:00', content: '工单已派单', type: 'info' } ] },
+  { id: 4, title: '打印机故障', type: '故障报修', handler: '孙丽', status: '处理中', progress: 2, createTime: '2025-05-18 11:00', logs: [ { time: '2025-05-18 10:00', content: '工单已派单', type: 'info' }, { time: '2025-05-18 11:00', content: '正在处理', type: 'warning' } ] },
+  { id: 5, title: '服务器巡检', type: '巡检', handler: '周伟', status: '已完成', progress: 3, createTime: '2025-05-17 09:00', logs: [ { time: '2025-05-17 08:00', content: '工单已派单', type: 'info' }, { time: '2025-05-17 09:00', content: '巡检完成', type: 'success' } ] },
+  { id: 6, title: '数据库升级', type: '升级', handler: '马俊', status: '待处理', progress: 1, createTime: '2025-05-17 13:00', logs: [ { time: '2025-05-17 13:00', content: '工单已派单', type: 'info' } ] },
+  { id: 7, title: '交换机故障', type: '故障报修', handler: '许静', status: '处理中', progress: 2, createTime: '2025-05-16 10:00', logs: [ { time: '2025-05-16 09:00', content: '工单已派单', type: 'info' }, { time: '2025-05-16 10:00', content: '正在处理', type: 'warning' } ] },
+  { id: 8, title: '办公区巡检', type: '巡检', handler: '宋倩', status: '已完成', progress: 3, createTime: '2025-05-15 15:00', logs: [ { time: '2025-05-15 14:00', content: '工单已派单', type: 'info' }, { time: '2025-05-15 15:00', content: '巡检完成', type: 'success' } ] },
+  { id: 9, title: '应用系统升级', type: '升级', handler: '魏东', status: '待处理', progress: 1, createTime: '2025-05-14 16:00', logs: [ { time: '2025-05-14 16:00', content: '工单已派单', type: 'info' } ] },
   { id: 10, title: '门禁系统故障', type: '故障报修', handler: '冯媛', status: '处理中', progress: 2, createTime: '2025-05-23 17:00', logs: [ { time: '2025-05-23 16:00', content: '工单已派单', type: 'info' }, { time: '2025-05-23 17:00', content: '正在处理', type: 'warning' } ] }
 ])
 const ticketList = ref<TicketItem[]>([])

@@ -88,14 +88,14 @@ interface SystemItem {
 const originalSystemList = ref<SystemItem[]>([
   { id: 1, systemName: '人口管理系统', owner: '李明', status: '运行中', desc: '人口信息管理', updateTime: '2025-05-01 09:00', icon: Monitor },
   { id: 2, systemName: '政务门户', owner: '王芳', status: '运行中', desc: '门户网站', updateTime: '2025-05-01 08:30', icon: Platform },
-  { id: 3, systemName: '视频监控平台', owner: '赵强', status: '异常', desc: '视频监控与告警', updateTime: '2025-05-31 17:00', icon: Warning },
-  { id: 4, systemName: '数据共享平台', owner: '孙丽', status: '运行中', desc: '数据共享交换', updateTime: '2025-05-31 16:00', icon: DataLine },
-  { id: 5, systemName: '应急指挥系统', owner: '周伟', status: '运行中', desc: '应急指挥调度', updateTime: '2025-05-30 14:00', icon: Box },
-  { id: 6, systemName: '资产管理系统', owner: '马俊', status: '停用', desc: '资产台账与管理', updateTime: '2025-05-29 11:00', icon: Folder },
-  { id: 7, systemName: '工单系统', owner: '许静', status: '运行中', desc: '运维工单管理', updateTime: '2025-05-28 09:00', icon: Cpu },
-  { id: 8, systemName: '能耗监控平台', owner: '宋倩', status: '运行中', desc: '能耗数据采集', updateTime: '2025-05-27 13:00', icon: DataLine },
-  { id: 9, systemName: '安全事件平台', owner: '魏东', status: '异常', desc: '安全事件监控', updateTime: '2025-05-26 10:00', icon: Warning },
-  { id: 10, systemName: '备份任务系统', owner: '冯媛', status: '运行中', desc: '数据备份与恢复', updateTime: '2025-05-25 15:00', icon: Folder }
+  { id: 3, systemName: '视频监控平台', owner: '赵强', status: '异常', desc: '视频监控与告警', updateTime: '2025-05-20 17:00', icon: Warning },
+  { id: 4, systemName: '数据共享平台', owner: '孙丽', status: '运行中', desc: '数据共享交换', updateTime: '2025-05-20 16:00', icon: DataLine },
+  { id: 5, systemName: '应急指挥系统', owner: '周伟', status: '运行中', desc: '应急指挥调度', updateTime: '2025-05-19 14:00', icon: Box },
+  { id: 6, systemName: '资产管理系统', owner: '马俊', status: '停用', desc: '资产台账与管理', updateTime: '2025-05-18 11:00', icon: Folder },
+  { id: 7, systemName: '工单系统', owner: '许静', status: '运行中', desc: '运维工单管理', updateTime: '2025-05-17 09:00', icon: Cpu },
+  { id: 8, systemName: '能耗监控平台', owner: '宋倩', status: '运行中', desc: '能耗数据采集', updateTime: '2025-05-17 13:00', icon: DataLine },
+  { id: 9, systemName: '安全事件平台', owner: '魏东', status: '异常', desc: '安全事件监控', updateTime: '2025-05-16 10:00', icon: Warning },
+  { id: 10, systemName: '备份任务系统', owner: '冯媛', status: '运行中', desc: '数据备份与恢复', updateTime: '2025-05-15 15:00', icon: Folder }
 ])
 const systemList = ref<SystemItem[]>([])
 
